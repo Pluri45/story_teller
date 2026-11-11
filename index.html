@@ -23,7 +23,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="preload" as="image" href="assets/img/portrait.jpg">
   <link rel="stylesheet" href="css/styles.css">
@@ -50,15 +50,7 @@
       <div class="hero__scrim" aria-hidden="true"></div>
 
       <div class="hero__inner">
-        <!-- Dot-matrix portrait; hover/tap scans to the real photo -->
-        <div class="hero__portrait" id="hero-portrait" tabindex="0" role="button" aria-pressed="false"
-             aria-label="Portrait of Olutola Owolabi. Press to reveal the photo.">
-          <img class="hero__img" id="hero-img" src="assets/img/portrait.jpg" alt="Portrait of Olutola Owolabi"
-               width="732" height="1024" fetchpriority="high">
-          <canvas class="hero__dots" id="hero-dots" aria-hidden="true"></canvas>
-          <span class="hero__scan" aria-hidden="true"></span>
-        </div>
-
+        <!-- Left column (desktop): text, lens switcher, links, tools row -->
         <div class="hero__content">
           <h1 class="hero__name" id="hero-name">Olutola Owolabi</h1>
 
@@ -72,7 +64,75 @@
           <div class="lens-switcher" data-switcher role="group" aria-label="Choose a lens" id="hero-switcher"></div>
 
           <nav class="hero__links" id="hero-links" aria-label="Profiles and contact"></nav>
+
+          <div class="hero__tools" aria-label="Tools I work with">
+            <p class="hero__tools-label" id="hero-tools-label">TOOLS I WORK WITH</p>
+            <ul class="hero__tools-list" id="hero-tools-list"></ul>
+          </div>
         </div>
+
+        <!-- Right column (desktop): arch portrait + 4 floating lens cards -->
+        <div class="hero__visual">
+          <div class="hero__arch-stage">
+            <div class="hero__arch-glow" aria-hidden="true"></div>
+            <div class="hero__arch-ring" aria-hidden="true"></div>
+            <div class="hero__arch">
+              <img class="hero__img" id="hero-img" src="assets/img/portrait.jpg" alt="Portrait of Olutola Owolabi"
+                   width="732" height="1024" fetchpriority="high">
+            </div>
+
+            <!-- 1. Engineering floating card (top-left of arch) -->
+            <div class="float-card float-card--engineering" data-lens-card="engineering" role="button" tabindex="0"
+                 aria-label="Engineering lens: view code snippet">
+              <div class="float-card__bar">
+                <span class="float-card__dot float-card__dot--green" aria-hidden="true"></span>
+                <span class="float-card__title" id="card-eng-title">&lt;/&gt; olutola.js</span>
+              </div>
+              <pre class="float-card__code" id="card-eng-code"><code><span class="tok-kw">const</span> olutola = {
+  builds: <span class="tok-str">"backends"</span>,
+  runs: <span class="tok-str">"operations"</span>,
+  writes: <span class="tok-str">"stories"</span>
+};</code></pre>
+            </div>
+
+            <!-- 2. Operations floating pill (top-right of arch) -->
+            <div class="float-card float-card--operations" data-lens-card="operations" role="button" tabindex="0"
+                 aria-label="Operations lens: all systems operational, 99.9% uptime">
+              <span class="float-card__pulse" aria-hidden="true"></span>
+              <span class="float-card__pill-text" id="card-ops-text">All systems operational · 99.9% uptime</span>
+            </div>
+
+            <!-- 3. Finance floating card (bottom-left of arch) -->
+            <div class="float-card float-card--finance" data-lens-card="finance" role="button" tabindex="0"
+                 aria-label="Finance lens: failed withdrawals under 0.1%">
+              <svg class="float-card__spark" viewBox="0 0 88 28" width="88" height="28" aria-hidden="true">
+                <defs>
+                  <linearGradient id="spark-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="currentColor" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M2 22 L18 19 L32 21 L48 13 L62 14 L74 7 L86 4 L86 27 L2 27 Z" fill="url(#spark-fill)"/>
+                <path d="M2 22 L18 19 L32 21 L48 13 L62 14 L74 7 L86 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="86" cy="4" r="2.8" fill="currentColor"/>
+              </svg>
+              <span class="float-card__metric" id="card-fin-text">Failed withdrawals &lt; 0.1%</span>
+            </div>
+
+            <!-- 4. Writing floating card (bottom-right of arch) -->
+            <div class="float-card float-card--writing" data-lens-card="writing" role="button" tabindex="0"
+                 aria-label="Writing lens: Latest on Substack">
+              <a class="float-card__substack" id="card-wri-link" href="https://oolutolaowolabi.substack.com" target="_blank" rel="noopener">
+                ✎ Latest on Substack →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width scrolling band at the bottom of the hero -->
+      <div class="hero__band" aria-label="Core areas">
+        <div class="hero__band-track" id="hero-band-track"></div>
       </div>
     </section>
 
@@ -81,6 +141,5 @@
 
   <script src="js/main.js" defer></script>
   <script src="js/hero-bg.js" defer></script>
-  <script src="js/hero-portrait.js" defer></script>
 </body>
 </html>

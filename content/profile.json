@@ -45,5 +45,40 @@
     { "label": "GitHub", "url": "https://github.com/Pluri45" },
     { "label": "Substack", "url": "https://oolutolaowolabi.substack.com" }
   ],
-  "emailButtonLabel": "Email me"
+  "emailButtonLabel": "Email me",
+  "toolsLabel": "TOOLS I WORK WITH",
+  "tools": [
+    { "id": "rust", "label": "Rust" },
+    { "id": "laravel", "label": "PHP/Laravel" },
+    { "id": "typescript", "label": "TypeScript" },
+    { "id": "python", "label": "Python" },
+    { "id": "postgresql", "label": "PostgreSQL" },
+    { "id": "docker", "label": "Docker" },
+    { "id": "linux", "label": "Linux" }
+  ],
+  "heroCards": {
+    "engineering": {
+      "title": "</> olutola.js",
+      "code": "const olutola = {\n  builds: \"backends\",\n  runs: \"operations\",\n  writes: \"stories\"\n};"
+    },
+    "operations": {
+      "text": "All systems operational · 99.9% uptime"
+    },
+    "finance": {
+      "text": "Failed withdrawals < 0.1%"
+    },
+    "writing": {
+      "text": "✎ Latest on Substack →",
+      "url": "https://oolutolaowolabi.substack.com"
+    }
+  },
+  "marquee": [
+    "Backend Engineering",
+    "DevOps",
+    "Payments",
+    "Reconciliation",
+    "Operations",
+    "Technical Writing",
+    "Fiction"
+  ]
 }

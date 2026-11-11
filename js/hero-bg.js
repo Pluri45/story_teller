@@ -12,7 +12,7 @@
   var ctx = canvas.getContext("2d");
   var reduced = Site.reducedMotion;
 
-  var BASE = 0.2;          // normal opacity of elements (15–25% range)
+  var BASE = 0.12;         // subtler normal opacity of background elements
   var MOUSE_RADIUS = 170;  // how far the "brighten near the mouse" effect reaches
   var FADE_TIME = 0.9;     // seconds for the crossfade between lenses
 
