@@ -1,0 +1,44 @@
+{
+  "name": {
+    "first": "OLUTOLA",
+    "last": "OWOLABI",
+    "full": "Olutola Owolabi"
+  },
+  "role": "Backend & DevOps engineer, operations lead and writer",
+  "tagline": "Engineering systems. Running operations. Writing it all down.",
+  "defaultLens": "writing",
+  "lensOrder": ["engineering", "operations", "finance", "writing"],
+  "lenses": {
+    "engineering": {
+      "label": "Engineering",
+      "accent": "#4FD1E8",
+      "subtitle": "Backend & integrations engineer building fintech and blockchain infrastructure — 99.9% uptime, sub-200ms APIs."
+    },
+    "operations": {
+      "label": "Operations",
+      "accent": "#F5A524",
+      "subtitle": "Liquidity and reconciliation systems across wallets, chains and payment providers — failed withdrawals under 0.1%."
+    },
+    "finance": {
+      "label": "Finance",
+      "accent": "#7FD49B",
+      "subtitle": "Quant research and model development — a weighted probability engine that lifted simulated win rate from 91% to 95%."
+    },
+    "writing": {
+      "label": "Writing",
+      "accent": "#F06BAE",
+      "subtitle": "Fiction writer, Toyin Falola Prize long-listee (2020), and host of the Qdevs People Series."
+    }
+  },
+  "photo": {
+    "src": "assets/img/portrait.jpg",
+    "alt": "Portrait of Olutola Owolabi"
+  },
+  "email": "oolutolaowolabi@gmail.com",
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/olutolaowolabi" },
+    { "label": "GitHub", "url": "https://github.com/Pluri45" },
+    { "label": "Substack", "url": "https://oolutolaowolabi.substack.com" }
+  ],
+  "emailButtonLabel": "Email me"
+}
