@@ -45,26 +45,34 @@
   <main id="main">
     <!-- ============ 1. HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-name">
-      <div class="hero__photo" id="hero-photo" tabindex="0" role="button" aria-pressed="false"
-           aria-label="Portrait of Olutola Owolabi. Press to toggle the colour tint.">
-        <img class="hero__img" id="hero-img" src="assets/img/portrait.jpg" alt="Portrait of Olutola Owolabi"
-             width="732" height="1024" fetchpriority="high">
-        <span class="hero__tint" aria-hidden="true"></span>
-      </div>
+      <!-- Animated background (changes with the lens) -->
+      <canvas class="hero__bg" id="hero-bg" aria-hidden="true"></canvas>
       <div class="hero__scrim" aria-hidden="true"></div>
 
-      <div class="hero__content">
-        <h1 class="hero__name" id="hero-name" aria-label="Olutola Owolabi">
-          <span class="hero__line" aria-hidden="true"><span class="hero__line-inner" data-name="first">OLUTOLA</span></span>
-          <span class="hero__line hero__line--outline" aria-hidden="true"><span class="hero__line-inner" data-name="last">OWOLABI</span></span>
-        </h1>
+      <div class="hero__inner">
+        <!-- Dot-matrix portrait; hover/tap scans to the real photo -->
+        <div class="hero__portrait" id="hero-portrait" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Portrait of Olutola Owolabi. Press to reveal the photo.">
+          <img class="hero__img" id="hero-img" src="assets/img/portrait.jpg" alt="Portrait of Olutola Owolabi"
+               width="732" height="1024" fetchpriority="high">
+          <canvas class="hero__dots" id="hero-dots" aria-hidden="true"></canvas>
+          <span class="hero__scan" aria-hidden="true"></span>
+        </div>
 
-        <p class="hero__tagline" data-text="tagline">Engineering systems. Running operations. Writing it all down.</p>
-        <p class="hero__subtitle" id="hero-subtitle" aria-live="polite"></p>
+        <div class="hero__content">
+          <h1 class="hero__name" id="hero-name">Olutola Owolabi</h1>
 
-        <div class="lens-switcher" data-switcher role="group" aria-label="Choose a lens" id="hero-switcher"></div>
+          <p class="hero__statement" id="hero-statement">
+            <span class="hero__line"><span class="hero__line-inner"><em>Engineering</em> systems.</span></span>
+            <span class="hero__line"><span class="hero__line-inner">Running <em>operations</em>.</span></span>
+            <span class="hero__line"><span class="hero__line-inner"><em>Writing</em> it all down.</span></span>
+          </p>
+          <p class="hero__subtitle" id="hero-subtitle" aria-live="polite"></p>
 
-        <nav class="hero__links" id="hero-links" aria-label="Profiles and contact"></nav>
+          <div class="lens-switcher" data-switcher role="group" aria-label="Choose a lens" id="hero-switcher"></div>
+
+          <nav class="hero__links" id="hero-links" aria-label="Profiles and contact"></nav>
+        </div>
       </div>
     </section>
 
@@ -72,5 +80,7 @@
   </main>
 
   <script src="js/main.js" defer></script>
+  <script src="js/hero-bg.js" defer></script>
+  <script src="js/hero-portrait.js" defer></script>
 </body>
 </html>

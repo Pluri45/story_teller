@@ -219,6 +219,13 @@ h1, h2, h3, h4 {
    1. HERO
    ========================================================= */
 
+/* Lets the scan line position animate smoothly from 0% to 100% */
+@property --scan {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+
 .hero {
   position: relative;
   min-height: 100svh;
@@ -229,71 +236,102 @@ h1, h2, h3, h4 {
   isolation: isolate;
 }
 
-/* --- Photo: right half, behind the text, dissolving into the page --- */
-.hero__photo {
+/* Layer order: background canvas (0) → scrim (1) → portrait (2) → text (3) */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Darkens the area behind the text so it stays readable over the animation */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(58, 14, 30, 0.82) 0%, rgba(58, 14, 30, 0.55) 40%, rgba(58, 14, 30, 0) 65%),
+    linear-gradient(0deg, rgba(58, 14, 30, 0.85) 0%, rgba(58, 14, 30, 0) 25%);
+}
+
+.hero__inner {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+/* --- Portrait: dots on top, real photo underneath, revealed by the scan line --- */
+.hero__portrait {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 50%;
-  z-index: -2;
-  isolation: isolate;          /* keeps the tint blending only with the photo */
+  width: 46%;
+  z-index: 2;
   cursor: pointer;
-  /* Two gradients combined: fade on the LEFT and at the BOTTOM */
+  --scan: 0%;
+  transition: --scan 1s cubic-bezier(0.45, 0, 0.25, 1);
+  /* fade into the page on the LEFT and at the BOTTOM */
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, #000 45%),
-    linear-gradient(to top, transparent 0%, #000 30%);
+    linear-gradient(to right, transparent 0%, #000 40%),
+    linear-gradient(to top, transparent 0%, #000 28%);
   -webkit-mask-composite: source-in;
           mask-image:
-    linear-gradient(to right, transparent 0%, #000 45%),
-    linear-gradient(to top, transparent 0%, #000 30%);
+    linear-gradient(to right, transparent 0%, #000 40%),
+    linear-gradient(to top, transparent 0%, #000 28%);
           mask-composite: intersect;
-  animation: hero-photo-in 1.2s ease-out both;
+  animation: hero-fade-in 1.2s ease-out both;
 }
+.hero__portrait.is-revealed { --scan: 100%; }
 
-.hero__img {
+.hero__img,
+.hero__dots {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+}
+.hero__img {
   object-fit: cover;
-  object-position: 60% 15%;
+  object-position: 50% 0%;
+  filter: saturate(0.7);                          /* calmer, less pink */
+  clip-path: inset(0 0 calc(100% - var(--scan)) 0); /* only the part above the scan line */
+}
+.hero__dots {
+  clip-path: inset(var(--scan) 0 0 0);            /* only the part below the scan line */
 }
 
-/* Accent-colour tint. mix-blend-mode: color keeps light/dark but swaps the hue */
-.hero__tint {
+.hero__scan {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: var(--scan);
+  height: 2px;
+  margin-top: -1px;
   background: var(--accent);
-  mix-blend-mode: color;
-  opacity: 0.6;
-  transition: opacity 0.6s ease;
+  box-shadow: 0 0 14px 3px var(--accent), 0 0 40px 8px color-mix(in srgb, var(--accent) 45%, transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
   pointer-events: none;
 }
+.hero__portrait.is-scanning .hero__scan { opacity: 1; }
 
-@media (hover: hover) {
-  .hero__photo:hover .hero__tint { opacity: 0; }
-}
-.hero__photo.is-revealed .hero__tint { opacity: 0; }
+.hero__portrait:focus-visible { outline-offset: -6px; }
 
-.hero__photo:focus-visible { outline-offset: -6px; }
+/* Reduced motion (set by JS): plain photo */
+.hero__portrait.is-static { cursor: default; }
+.hero__portrait.is-static .hero__img { clip-path: none; }
+.hero__portrait.is-static .hero__dots,
+.hero__portrait.is-static .hero__scan { display: none; }
 
-/* Dark gradient on the left so text stays readable where it meets the photo */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(58, 14, 30, 0.92) 0%, rgba(58, 14, 30, 0.55) 38%, rgba(58, 14, 30, 0) 62%),
-    linear-gradient(0deg, rgba(58, 14, 30, 0.9) 0%, rgba(58, 14, 30, 0) 30%);
-}
-
-/* --- Text layer --- */
+/* --- Text --- */
 .hero__content {
   position: relative;
-  width: 100%;
-  max-width: var(--max);
-  margin: 0 auto;
-  /* Let hover/tap pass through to the photo, except on real controls */
+  z-index: 3;
+  /* let hover/tap pass through to the portrait, except on real controls */
   pointer-events: none;
 }
 .hero__content a,
@@ -301,44 +339,49 @@ h1, h2, h3, h4 {
 
 .hero__name {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3.5rem, 13vw, 12rem);
-  line-height: 0.86;
-  letter-spacing: -0.045em;
-  margin: 0 0 clamp(1.25rem, 3vh, 2rem);
+  font-weight: 500;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 clamp(1rem, 2.5vh, 1.5rem);
+  animation: hero-fade-in 0.8s ease-out both;
+}
+
+.hero__statement {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 clamp(1.25rem, 3vh, 1.75rem);
+  text-shadow: 0 2px 24px rgba(58, 14, 30, 0.7);
+}
+/* Wider screens: exactly three lines */
+@media (min-width: 769px) {
+  .hero__line { white-space: nowrap; }
+}
+.hero__statement em {
+  font-style: normal;
+  color: var(--accent);
 }
 
 .hero__line {
   display: block;
-  overflow: hidden;            /* hides the letters until they slide up */
-  padding: 0.04em 0.06em 0.04em 0;
+  overflow: hidden;          /* hides each line until it slides up */
+  padding-bottom: 0.06em;
 }
 .hero__line-inner {
   display: block;
   animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: 0.3s;
 }
-.hero__line--outline .hero__line-inner {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--accent);
-  animation-delay: 0.55s;
-}
-@supports not (-webkit-text-stroke: 1px black) {
-  .hero__line--outline .hero__line-inner { color: var(--accent); }
-}
-
-.hero__tagline {
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
-  font-weight: 500;
-  max-width: 34ch;
-  margin: 0 0 0.6rem;
-  text-shadow: 0 1px 12px rgba(58, 14, 30, 0.8);
-}
+.hero__line:nth-child(1) .hero__line-inner { animation-delay: 0.2s; }
+.hero__line:nth-child(2) .hero__line-inner { animation-delay: 0.35s; }
+.hero__line:nth-child(3) .hero__line-inner { animation-delay: 0.5s; }
 
 .hero__subtitle {
   color: var(--muted);
-  max-width: 52ch;
+  max-width: 50ch;
   margin: 0 0 1.75rem;
   min-height: 3.2em;
   text-shadow: 0 1px 10px rgba(58, 14, 30, 0.9);
@@ -353,30 +396,44 @@ h1, h2, h3, h4 {
   margin-top: 1.25rem;
 }
 
-/* --- Load-in animations --- */
-@keyframes hero-photo-in { from { opacity: 0; } }
-@keyframes hero-rise     { from { transform: translateY(110%); } }
+@keyframes hero-fade-in { from { opacity: 0; } }
+@keyframes hero-rise    { from { transform: translateY(110%); } }
 
-/* --- Phones: photo moves to the top, behind the text, at reduced opacity --- */
+/* --- Tablets: give the text a little more room --- */
+@media (max-width: 1100px) and (min-width: 769px) {
+  .hero__portrait { width: 44%; }
+  .hero__statement { font-size: clamp(2.5rem, 5.4vw, 5.5rem); }
+}
+
+/* --- Phones: smaller dot portrait ABOVE the text --- */
 @media (max-width: 768px) {
   .hero {
-    align-items: flex-end;
-    padding-top: 6rem;
+    align-items: flex-start;
+    padding-top: 4.5rem;
   }
-  .hero__photo {
-    left: 0;
-    width: 100%;
-    bottom: auto;
-    height: 78svh;
-    opacity: 0.35;
-    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero__portrait {
+    position: relative;
+    inset: auto;
+    width: min(58vw, 260px);
+    aspect-ratio: 732 / 1024;
+    margin: 0 0 -2.5rem;     /* text overlaps the faded bottom slightly */
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
     -webkit-mask-composite: source-over;
             mask-composite: add;
   }
-  .hero__img { object-position: 50% 10%; }
-  .hero__scrim { display: none; }
-  .hero__line--outline .hero__line-inner { -webkit-text-stroke-width: 1.5px; }
+  .hero__scrim {
+    background: linear-gradient(0deg, rgba(58, 14, 30, 0.75) 0%, rgba(58, 14, 30, 0.35) 60%, rgba(58, 14, 30, 0) 100%);
+  }
+  .hero__statement {
+    max-width: none;
+    font-size: clamp(2.05rem, 9.2vw, 3.2rem);
+  }
+  .hero__line { white-space: nowrap; }
   .lens-switcher { border-radius: 18px; }
   .topbar .lens-switcher { border-radius: 999px; }
 }
@@ -389,7 +446,8 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================================
-   Reduced motion: no animations, real photo by default
+   Reduced motion: no animations; JS shows a still background
+   and the real photo instead of the dots
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -398,6 +456,4 @@ h1, h2, h3, h4 {
     animation: none !important;
     transition: none !important;
   }
-  .hero__tint { opacity: 0; }
-  .hero__photo.is-tinted .hero__tint { opacity: 0.6; }
 }

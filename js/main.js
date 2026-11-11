@@ -102,10 +102,20 @@
   /* ---------- Hero ---------- */
 
   function renderHero() {
-    document.querySelector('[data-name="first"]').textContent = profile.name.first;
-    document.querySelector('[data-name="last"]').textContent = profile.name.last;
-    document.getElementById("hero-name").setAttribute("aria-label", profile.name.full);
-    document.querySelector('[data-text="tagline"]').textContent = profile.tagline;
+    document.getElementById("hero-name").textContent = profile.name.full;
+
+    // Statement lines: words in [brackets] are coloured with the lens accent
+    var statement = document.getElementById("hero-statement");
+    statement.innerHTML = "";
+    profile.statement.forEach(function (line) {
+      var inner = el("span", { class: "hero__line-inner" });
+      line.split(/(\[[^\]]+\])/).forEach(function (part) {
+        if (!part) return;
+        if (part.charAt(0) === "[") inner.appendChild(el("em", { text: part.slice(1, -1) }));
+        else inner.appendChild(document.createTextNode(part));
+      });
+      statement.appendChild(el("span", { class: "hero__line" }, [inner]));
+    });
 
     var img = document.getElementById("hero-img");
     img.alt = profile.photo.alt;
@@ -126,23 +136,22 @@
     }, [profile.emailButtonLabel, el("span", { class: "btn__arrow", "aria-hidden": "true", text: "→" })]));
   }
 
-  // Tap / click / keyboard toggles the tint on the photo
-  function initPhotoToggle() {
-    var photo = document.getElementById("hero-photo");
-    // With reduced motion the real photo shows by default; toggling adds the tint
-    var cls = reducedMotion ? "is-tinted" : "is-revealed";
-
-    function toggle() {
-      var on = photo.classList.toggle(cls);
-      photo.setAttribute("aria-pressed", on ? "true" : "false");
+  // Current accent colour as {r, g, b}. While a lens is changing, the browser
+  // reports the in-between colour, so canvases can fade smoothly too.
+  function getAccentRGB() {
+    var v = getComputedStyle(root).getPropertyValue("--accent").trim();
+    var m = v.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/);
+    if (m) return { r: +m[1], g: +m[2], b: +m[3] };
+    var hex = v.replace("#", "");
+    if (hex.length === 3) hex = hex.replace(/./g, "$&$&");
+    if (hex.length >= 6) {
+      return {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16)
+      };
     }
-    photo.addEventListener("click", toggle);
-    photo.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
-    });
+    return { r: 240, g: 107, b: 174 };
   }
 
   // Show the sticky bar once the hero switcher scrolls out of view
@@ -167,12 +176,11 @@
     onLensChange: onLensChange,
     setLens: setLens,
     getLens: function () { return currentLens; },
+    getAccentRGB: getAccentRGB,
     reducedMotion: reducedMotion,
     profile: function () { return profile; },
     ready: null
   };
-
-  initPhotoToggle();
 
   window.Site.ready = loadJSON("profile")
     .then(function (data) {

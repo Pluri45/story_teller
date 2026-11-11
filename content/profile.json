@@ -6,6 +6,11 @@
   },
   "role": "Backend & DevOps engineer, operations lead and writer",
   "tagline": "Engineering systems. Running operations. Writing it all down.",
+  "statement": [
+    "[Engineering] systems.",
+    "Running [operations].",
+    "[Writing] it all down."
+  ],
   "defaultLens": "writing",
   "lensOrder": ["engineering", "operations", "finance", "writing"],
   "lenses": {
