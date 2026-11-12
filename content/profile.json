@@ -11,7 +11,7 @@
     "Running [operations].",
     "[Writing] it all down."
   ],
-  "defaultLens": "writing",
+  "defaultLens": "engineering",
   "lensOrder": ["engineering", "operations", "finance", "writing"],
   "lenses": {
     "engineering": {
@@ -37,7 +37,8 @@
   },
   "photo": {
     "src": "assets/img/portrait.jpg",
-    "alt": "Portrait of Olutola Owolabi"
+    "alt": "Portrait of Olutola Owolabi",
+    "spec": "OLUTOLA OWOLABI · BACKEND / DEVOPS · LAGOS, NG"
   },
   "email": "oolutolaowolabi@gmail.com",
   "links": [
@@ -56,22 +57,6 @@
     { "id": "docker", "label": "Docker" },
     { "id": "linux", "label": "Linux" }
   ],
-  "heroCards": {
-    "engineering": {
-      "title": "</> olutola.js",
-      "code": "const olutola = {\n  builds: \"backends\",\n  runs: \"operations\",\n  writes: \"stories\"\n};"
-    },
-    "operations": {
-      "text": "All systems operational · 99.9% uptime"
-    },
-    "finance": {
-      "text": "Failed withdrawals < 0.1%"
-    },
-    "writing": {
-      "text": "✎ Latest on Substack →",
-      "url": "https://oolutolaowolabi.substack.com"
-    }
-  },
   "marquee": [
     "Backend Engineering",
     "DevOps",
