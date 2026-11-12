@@ -1,0 +1,44 @@
+{
+  "code": "CONTACT.01 // CONNECT",
+  "title": "Let's work together",
+  "intro": "Hiring, building something, or just want to talk systems? Send me a message.",
+  "form": {
+    "action": "https://formspree.io/f/[PLACEHOLDER]",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "topicLabel": "What's this about?",
+    "topicPlaceholder": "Choose a topic",
+    "topics": [
+      "Full-time role",
+      "Contract or project work",
+      "Something else"
+    ],
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project, timeline and goals...",
+    "submitLabel": "Send message",
+    "successMessage": "Thanks, I'll get back to you soon.",
+    "errorMessage": "Sorry, there was a problem sending your message. Please email me directly."
+  },
+  "directLinksHeading": "Or reach me directly",
+  "directLinks": [
+    {
+      "label": "Email me",
+      "url": "mailto:oolutolaowolabi@gmail.com",
+      "primary": true
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/olutolaowolabi"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/Pluri45"
+    },
+    {
+      "label": "Substack",
+      "url": "https://oolutolaowolabi.substack.com"
+    }
+  ]
+}

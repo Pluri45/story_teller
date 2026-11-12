@@ -249,13 +249,80 @@
       </div>
     </section>
 
-    <!-- Contact anchor for future section -->
-    <div id="contact" tabindex="-1"></div>
+    <!-- ============ 6. TESTIMONIALS (HIDDEN UNTIL CONTENT IS ADDED) ============ -->
+    <section class="testimonials" id="testimonials" aria-labelledby="testimonials-heading" hidden>
+      <div class="testimonials__inner">
+        <header class="section-header">
+          <div class="section-header__meta">
+            <span class="section-header__code" id="testimonials-code">TEST.01 // REPUTATION</span>
+          </div>
+          <h2 class="section-header__title" id="testimonials-heading">What people say</h2>
+        </header>
+
+        <div class="testimonials__grid" id="testimonials-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ 7. CONTACT ============ -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="contact__inner">
+        <header class="section-header">
+          <div class="section-header__meta">
+            <span class="section-header__code" id="contact-code">CONTACT.01 // CONNECT</span>
+          </div>
+          <h2 class="section-header__title" id="contact-heading">Let's work together</h2>
+          <p class="section-header__sub" id="contact-intro">
+            Hiring, building something, or just want to talk systems? Send me a message.
+          </p>
+        </header>
+
+        <div class="contact__body" id="contact-body">
+          <div class="contact-direct">
+            <h3 class="contact-direct__heading">Or reach me directly</h3>
+            <div class="contact-direct__links">
+              <a href="mailto:oolutolaowolabi@gmail.com" class="btn btn--primary">Email me <span class="btn__arrow" aria-hidden="true">→</span></a>
+              <a href="https://www.linkedin.com/in/olutolaowolabi" target="_blank" rel="noopener noreferrer" class="btn btn--contact">LinkedIn <span class="btn__arrow" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+              <a href="https://github.com/Pluri45" target="_blank" rel="noopener noreferrer" class="btn btn--contact">GitHub <span class="btn__arrow" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+              <a href="https://oolutolaowolabi.substack.com" target="_blank" rel="noopener noreferrer" class="btn btn--contact">Substack <span class="btn__arrow" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="footer" aria-label="Site footer">
+    <div class="footer__inner">
+      <div class="footer__main">
+        <div class="footer__brand-group">
+          <a class="footer__brand" href="#top" aria-label="Back to top">OO<span class="footer__dot" aria-hidden="true">.</span></a>
+          <p class="footer__statement">Engineering systems. Running operations. Writing it all down.</p>
+        </div>
+
+        <div class="footer__actions">
+          <nav class="footer__links" aria-label="Footer links">
+            <a href="https://www.linkedin.com/in/olutolaowolabi" target="_blank" rel="noopener noreferrer" class="footer__link">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="https://github.com/Pluri45" target="_blank" rel="noopener noreferrer" class="footer__link">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="https://oolutolaowolabi.substack.com" target="_blank" rel="noopener noreferrer" class="footer__link">Substack<span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="mailto:oolutolaowolabi@gmail.com" class="footer__link">Email</a>
+          </nav>
+          <button type="button" class="footer__top-btn" id="footer-top-btn" aria-label="Back to top">
+            Back to top <span aria-hidden="true">↑</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© <span id="footer-year">2026</span> Olutola Owolabi</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/main.js" defer></script>
   <script src="js/sections.js" defer></script>
   <script src="js/writing.js" defer></script>
   <script src="js/services.js" defer></script>
+  <script src="js/contact.js" defer></script>
 </body>
 </html>
