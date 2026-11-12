@@ -45,6 +45,7 @@
     var headingEl = document.getElementById("status-heading");
     var stateEl = document.getElementById("status-state");
     var noteEl = document.getElementById("status-note");
+    var captionEl = document.getElementById("status-caption");
     var grid = document.getElementById("status-grid");
     if (!grid || !stats || !stats.items) return;
 
@@ -52,6 +53,7 @@
     if (headingEl && stats.title) headingEl.textContent = stats.title;
     if (stateEl && stats.statusText) stateEl.textContent = stats.statusText;
     if (noteEl && stats.uptimeNote) noteEl.textContent = stats.uptimeNote;
+    if (captionEl && stats.caption) captionEl.textContent = stats.caption;
 
     grid.innerHTML = "";
     var valueNodes = [];
