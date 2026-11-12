@@ -22,12 +22,12 @@
     "operations": {
       "label": "Operations",
       "accent": "#F5A524",
-      "subtitle": "Liquidity and reconciliation systems across wallets, chains and payment providers, keeping failed withdrawals under 0.1%."
+      "subtitle": "Builds liquidity and reconciliation systems across wallets, chains and payment providers, keeping failed withdrawals under 0.1%."
     },
     "finance": {
       "label": "Finance",
       "accent": "#7FD49B",
-      "subtitle": "Quant research and model development, building a weighted probability engine that lifted simulated win rate from 91% to 95%."
+      "subtitle": "Quant research and model development, including a weighted probability engine that lifted the simulated win rate from 91% to 95%."
     },
     "writing": {
       "label": "Writing",
