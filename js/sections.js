@@ -124,7 +124,6 @@
 
   var workData = null;
   var currentFilter = "all";
-  var categoryMap = {};
 
   function renderDiagram(diagram) {
     if (!diagram || !diagram.nodes) return null;
@@ -158,112 +157,120 @@
     ]);
   }
 
-  function buildProjectCard(proj, isFeatured, defaultOpen, meta) {
-    var expandLabel = meta.expandLabel || "View architecture";
-    var collapseLabel = meta.collapseLabel || "Hide architecture";
-    var panelId = "work-panel-" + proj.id;
+  // Builds one project card: collapsed summary plus an expandable full story
+  function buildProjectCard(proj, meta) {
+    var readLabel = meta.readLabel || "Read case study";
+    var closeLabel = meta.closeLabel || "Close case study";
+    var archOpenLabel = meta.expandLabel || "View architecture";
+    var archCloseLabel = meta.collapseLabel || "Hide architecture";
+    var storyId = "work-story-" + proj.id;
+    var archId = "work-arch-" + proj.id;
 
-    // Stack chips
+    // Main toggle: "Read case study +" / "Close case study −"
+    var readText = el("span", { text: readLabel });
+    var readIcon = el("span", { class: "proj-card__toggle-icon", "aria-hidden": "true", text: "+" });
+    var readBtn = el("button", {
+      type: "button",
+      class: "proj-card__read",
+      "aria-expanded": "false",
+      "aria-controls": storyId
+    }, [readText, readIcon]);
+
+    // Secondary toggle inside the story for the architecture diagram
+    var archText = el("span", { text: archOpenLabel });
+    var archIcon = el("span", { class: "proj-card__toggle-icon", "aria-hidden": "true", text: "+" });
+    var archBtn = el("button", {
+      type: "button",
+      class: "proj-card__toggle",
+      "aria-expanded": "false",
+      "aria-controls": archId
+    }, [archText, archIcon]);
+    var archPanel = el("div", { class: "proj-card__arch", id: archId }, [renderDiagram(proj.diagram)]);
+    archPanel.hidden = true;
+
     var stackList = el("ul", { class: "proj-card__stack", "aria-label": "Stack" });
     (proj.stack || []).forEach(function (tech) {
       stackList.appendChild(el("li", { class: "proj-card__chip", text: tech }));
     });
 
-    // Category tags
-    var catRow = el("ul", { class: "proj-card__cats", "aria-label": "Categories" });
-    (proj.categories || []).forEach(function (cId) {
-      if (categoryMap[cId]) {
-        catRow.appendChild(el("li", { class: "proj-card__cat", text: categoryMap[cId] }));
-      }
-    });
+    function storyPart(heading, text, extraClass) {
+      return el("div", { class: "proj-card__part" + (extraClass ? " " + extraClass : "") }, [
+        el("h4", { class: "proj-card__subhead", text: heading }),
+        el("p", { class: "proj-card__body", text: cleanCheckPrefix(text) })
+      ]);
+    }
 
-    // Expandable architecture toggle button (at least 44px tall)
-    var toggleText = el("span", {
-      class: "proj-card__toggle-text",
-      text: defaultOpen ? collapseLabel : expandLabel
-    });
-    var toggleIcon = el("span", {
-      class: "proj-card__toggle-icon",
-      "aria-hidden": "true",
-      text: defaultOpen ? "−" : "+"
-    });
-    var toggleBtn = el("button", {
-      type: "button",
-      class: "proj-card__toggle",
-      "aria-expanded": defaultOpen ? "true" : "false",
-      "aria-controls": panelId
-    }, [toggleText, toggleIcon]);
-
-    var panel = el("div", {
-      class: "proj-card__panel",
-      id: panelId
-    }, [renderDiagram(proj.diagram)]);
-    if (!defaultOpen) panel.hidden = true;
-
-    // Problem -> What I built -> The result blocks
-    var stepsGrid = el("div", { class: "proj-card__story" }, [
-      el("div", { class: "proj-card__story-step" }, [
-        el("h4", { class: "proj-card__subhead", text: "The problem" }),
-        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.problem) })
-      ]),
-      el("div", { class: "proj-card__story-step" }, [
-        el("h4", { class: "proj-card__subhead", text: "What I built" }),
-        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.built) })
-      ]),
-      el("div", { class: "proj-card__story-step proj-card__story-step--result" }, [
-        el("h4", { class: "proj-card__subhead", text: "The result" }),
-        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.result) })
+    // Expandable region (grid-rows trick gives a smooth height animation)
+    var story = el("div", { class: "proj-card__expand", id: storyId }, [
+      el("div", { class: "proj-card__expand-inner" }, [
+        el("div", { class: "proj-card__story" }, [
+          storyPart("The problem", proj.problem),
+          storyPart("What I built", proj.built),
+          storyPart("The result", proj.result, "proj-card__part--result")
+        ]),
+        el("div", { class: "proj-card__stack-row" }, [
+          el("span", { class: "proj-card__stack-label", text: "Stack" }),
+          stackList
+        ]),
+        archBtn,
+        archPanel
       ])
     ]);
 
-    var stackBlock = el("div", { class: "proj-card__stack-row" }, [
-      el("span", { class: "proj-card__stack-label", text: "Stack" }),
-      stackList
-    ]);
-
     var card = el("article", {
-      class: "proj-card " + (isFeatured ? "proj-card--featured" : "proj-card--compact") + (defaultOpen ? " is-open" : ""),
+      class: "proj-card",
       "data-categories": (proj.categories || []).join(" ")
     }, [
-      el("div", { class: "proj-card__main" }, [
-        el("div", { class: "proj-card__meta" }, [
-          el("div", { class: "proj-card__meta-left" }, [
-            el("span", { class: "proj-card__index", text: proj.index }),
-            el("span", { class: "proj-card__org", text: proj.company + " · " + proj.period })
-          ]),
-          el("span", { class: "proj-card__lead-metric", text: proj.leadMetric })
-        ]),
-        el("div", { class: "proj-card__head-row" }, [
-          el("h3", { class: "proj-card__title", text: proj.title }),
-          catRow
-        ]),
-        stepsGrid,
-        el("div", { class: "proj-card__footer" }, [
-          stackBlock,
-          toggleBtn
-        ])
+      el("p", { class: "proj-card__meta" }, [
+        el("span", { class: "proj-card__index", text: proj.index }),
+        el("span", { class: "proj-card__org", text: proj.company + " · " + proj.period })
       ]),
-      panel
+      el("div", { class: "proj-card__head" }, [
+        el("h3", { class: "proj-card__title", text: proj.title }),
+        el("span", { class: "proj-card__lead-metric", text: proj.leadMetric })
+      ]),
+      el("p", { class: "proj-card__summary", text: proj.summary }),
+      readBtn,
+      story
     ]);
 
-    toggleBtn.addEventListener("click", function () {
-      var open = card.classList.toggle("is-open");
-      panel.hidden = !open;
-      toggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
-      toggleText.textContent = open ? collapseLabel : expandLabel;
-      toggleIcon.textContent = open ? "−" : "+";
+    // Animate from the current height to the target, then settle on "auto" so content can reflow
+    readBtn.addEventListener("click", function () {
+      var open = !card.classList.contains("is-open");
+      story.style.height = story.scrollHeight + "px";
+      if (open) {
+        card.classList.add("is-open");
+      } else {
+        void story.offsetHeight; // force reflow so the collapse animates from the measured height
+        story.style.height = "0px";
+        card.classList.remove("is-open");
+      }
+      clearTimeout(story._settle);
+      story._settle = setTimeout(function () {
+        story.style.height = open ? "auto" : "";
+      }, Site.reducedMotion ? 0 : 360);
+      readBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      readText.textContent = open ? closeLabel : readLabel;
+      readIcon.textContent = open ? "−" : "+";
+    });
+
+    archBtn.addEventListener("click", function () {
+      var open = archPanel.hidden;
+      archPanel.hidden = !open;
+      archBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      archText.textContent = open ? archCloseLabel : archOpenLabel;
+      archIcon.textContent = open ? "−" : "+";
     });
 
     return card;
   }
 
+  // Shows only cards whose categories include the chosen filter
   function applyWorkFilter(filterId, animate) {
     if (!workData) return;
     currentFilter = filterId || "all";
 
-    // Update filter tab ARIA states
-    var tabs = document.querySelectorAll(".work-filter-btn");
-    tabs.forEach(function (btn) {
+    document.querySelectorAll(".work-filter-btn").forEach(function (btn) {
       var active = btn.getAttribute("data-filter") === currentFilter;
       btn.setAttribute("aria-selected", active ? "true" : "false");
       btn.setAttribute("tabindex", active ? "0" : "-1");
@@ -272,27 +279,17 @@
 
     var stage = document.getElementById("work-stage");
     var doUpdate = function () {
-      var featuredGroup = document.getElementById("work-featured-group");
-      var moreGroup = document.getElementById("work-more-group");
-      var featuredCount = 0;
-      var moreCount = 0;
-
-      document.querySelectorAll("#work-featured-grid .proj-card").forEach(function (card) {
-        var cats = (card.getAttribute("data-categories") || "").split(" ");
-        var show = currentFilter === "all" || cats.indexOf(currentFilter) !== -1;
-        card.hidden = !show;
-        if (show) featuredCount++;
+      [["work-featured-grid", "work-featured-group"], ["work-more-grid", "work-more-group"]].forEach(function (ids) {
+        var count = 0;
+        document.querySelectorAll("#" + ids[0] + " > [data-categories]").forEach(function (item) {
+          var cats = item.getAttribute("data-categories").split(" ");
+          var show = currentFilter === "all" || cats.indexOf(currentFilter) !== -1;
+          item.hidden = !show;
+          if (show) count++;
+        });
+        var group = document.getElementById(ids[1]);
+        if (group) group.hidden = count === 0;
       });
-
-      document.querySelectorAll("#work-more-grid .proj-card").forEach(function (card) {
-        var cats = (card.getAttribute("data-categories") || "").split(" ");
-        var show = currentFilter === "all" || cats.indexOf(currentFilter) !== -1;
-        card.hidden = !show;
-        if (show) moreCount++;
-      });
-
-      if (featuredGroup) featuredGroup.hidden = featuredCount === 0;
-      if (moreGroup) moreGroup.hidden = moreCount === 0;
     };
 
     if (animate && !Site.reducedMotion && stage) {
@@ -306,44 +303,40 @@
     }
   }
 
+  // Maps a hero lens to its filter tab (Writing has no filter)
+  function filterForLens(lensKey) {
+    var map = { engineering: "backend", operations: "operations", finance: "quant" };
+    if (workData && workData.lensToFilter) map = workData.lensToFilter;
+    return map[lensKey] || null;
+  }
+
   function renderSelectedWork(data) {
     workData = data;
     var meta = data.section || {};
-    var codeEl = document.getElementById("work-code");
-    var headingEl = document.getElementById("work-heading");
-    var subEl = document.getElementById("work-subtitle");
-    var featHeading = document.getElementById("work-featured-heading");
-    var moreHeading = document.getElementById("work-more-heading");
     var filterBar = document.getElementById("work-filters");
     var featGrid = document.getElementById("work-featured-grid");
     var moreGrid = document.getElementById("work-more-grid");
-
     if (!filterBar || !featGrid || !moreGrid) return;
 
-    if (codeEl && meta.code) codeEl.textContent = meta.code;
-    if (headingEl && meta.title) headingEl.textContent = meta.title;
-    if (subEl && meta.subtitle) subEl.textContent = meta.subtitle;
-    if (featHeading && meta.featuredHeading) featHeading.textContent = meta.featuredHeading;
-    if (moreHeading && meta.moreHeading) moreHeading.textContent = meta.moreHeading;
+    [["work-code", "code"], ["work-heading", "title"], ["work-subtitle", "subtitle"],
+     ["work-featured-heading", "featuredHeading"], ["work-more-heading", "moreHeading"]].forEach(function (pair) {
+      var node = document.getElementById(pair[0]);
+      if (node && meta[pair[1]]) node.textContent = meta[pair[1]];
+    });
 
-    categoryMap = {};
     filterBar.innerHTML = "";
     var filterBtns = [];
-
     (data.filters || []).forEach(function (f) {
-      if (f.id !== "all") categoryMap[f.id] = f.label;
       var btn = el("button", {
         type: "button",
-        class: "work-filter-btn" + (f.id === "all" ? " is-active" : ""),
+        class: "work-filter-btn",
         role: "tab",
         "data-filter": f.id,
-        "aria-selected": f.id === "all" ? "true" : "false",
-        tabindex: f.id === "all" ? "0" : "-1",
+        "aria-selected": "false",
+        tabindex: "-1",
         text: f.label
       });
-      btn.addEventListener("click", function () {
-        applyWorkFilter(f.id, true);
-      });
+      btn.addEventListener("click", function () { applyWorkFilter(f.id, true); });
       filterBar.appendChild(btn);
       filterBtns.push(btn);
     });
@@ -352,56 +345,48 @@
     filterBar.addEventListener("keydown", function (e) {
       var idx = filterBtns.indexOf(document.activeElement);
       if (idx === -1) return;
-      var nextIdx = -1;
-      if (e.key === "ArrowRight") nextIdx = (idx + 1) % filterBtns.length;
-      else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + filterBtns.length) % filterBtns.length;
-      else if (e.key === "Home") nextIdx = 0;
-      else if (e.key === "End") nextIdx = filterBtns.length - 1;
-
-      if (nextIdx !== -1) {
+      var next = -1;
+      if (e.key === "ArrowRight") next = (idx + 1) % filterBtns.length;
+      else if (e.key === "ArrowLeft") next = (idx - 1 + filterBtns.length) % filterBtns.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = filterBtns.length - 1;
+      if (next !== -1) {
         e.preventDefault();
-        filterBtns[nextIdx].focus();
-        applyWorkFilter(filterBtns[nextIdx].getAttribute("data-filter"), true);
+        filterBtns[next].focus();
+        applyWorkFilter(filterBtns[next].getAttribute("data-filter"), true);
       }
     });
 
     featGrid.innerHTML = "";
     moreGrid.innerHTML = "";
-
-    var featuredIdx = 0;
     (data.projects || []).forEach(function (proj) {
+      var card = buildProjectCard(proj, meta);
       if (proj.featured) {
-        var card = buildProjectCard(proj, true, featuredIdx === 0, meta);
-        featGrid.appendChild(card);
-        featuredIdx++;
+        // Featured cards sit in a slot so dividers only appear between visible items
+        var slot = el("div", { class: "work-slot", "data-categories": card.getAttribute("data-categories") }, [card]);
+        card.removeAttribute("data-categories");
+        featGrid.appendChild(slot);
       } else {
-        var compactCard = buildProjectCard(proj, false, false, meta);
-        moreGrid.appendChild(compactCard);
+        moreGrid.appendChild(card);
       }
     });
 
+    // Start on the filter that matches the current lens (or URL ?filter=)
     var urlFilter = new URLSearchParams(window.location.search).get("filter");
-    applyWorkFilter(urlFilter || "all", false);
+    applyWorkFilter(urlFilter || filterForLens(Site.getLens()) || "all", false);
   }
 
-  // Connect hero lens switcher to Selected Work filters (and Writing section jump)
+  // Keep the filter in step with the hero lens; Writing jumps to its section
   Site.onLensChange(function (lensKey, userTriggered) {
-    if (!userTriggered || !workData) return;
+    if (!workData) return;
     if (lensKey === "writing") {
+      if (!userTriggered) return;
       var writingSec = document.getElementById("writing");
-      if (writingSec) {
-        writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
-      }
+      if (writingSec) writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
       return;
     }
-    var map = (workData && workData.lensToFilter) || {
-      engineering: "backend",
-      operations: "operations",
-      finance: "quant"
-    };
-    if (map[lensKey]) {
-      applyWorkFilter(map[lensKey], true);
-    }
+    var filterId = filterForLens(lensKey);
+    if (filterId) applyWorkFilter(filterId, userTriggered);
   });
 
   /* ---------- Load section data ---------- */

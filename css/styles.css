@@ -1264,7 +1264,7 @@ a {
 }
 
 /* =========================================================
-   3. SELECTED WORK (UNIFIED SECTION WITH FILTER TABS)
+   3. SELECTED WORK (MOBILE-FIRST, COLLAPSED CARDS)
    ========================================================= */
 
 .selected-work {
@@ -1313,13 +1313,14 @@ a {
   color: var(--muted);
 }
 
-/* Filter tab bar: scrolls sideways inside its own row on phones, >= 44px height */
+/* Filter tabs: scroll sideways inside their own row on phones, 44px tall */
 .work-filters {
   display: flex;
   align-items: center;
   gap: 0.45rem;
   padding: 0.35rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
+  max-width: 100%;
   background: var(--card-deep);
   border: 1px solid var(--card-line);
   border-radius: var(--radius);
@@ -1330,7 +1331,7 @@ a {
 
 .work-filter-btn {
   appearance: none;
-  border: 1px solid transparent;
+  border: 0;
   background: transparent;
   color: var(--card-muted);
   font: 500 0.88rem/1.2 var(--font-display);
@@ -1340,14 +1341,11 @@ a {
   white-space: nowrap;
   flex: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .work-filter-btn:hover {
   color: var(--card-text);
-  background: rgba(247, 238, 241, 0.06);
 }
-
 .work-filter-btn.is-active {
   background: var(--accent);
   color: var(--on-accent);
@@ -1363,67 +1361,54 @@ a {
 }
 
 .work-group {
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
 }
 .work-group:last-child {
   margin-bottom: 0;
 }
 
 .work-group__heading {
-  margin: 0 0 0.9rem;
-  font: 600 0.78rem/1.2 var(--font-mono);
+  margin: 0 0 1rem;
+  font: 600 0.75rem/1.2 var(--font-mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-ink);
 }
 
+/* Featured: 40px (phones) between case studies with a thin divider */
 .work-featured-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.work-slot:not([hidden]) ~ .work-slot:not([hidden]) {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
 }
 
 .work-more-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.15rem;
+  gap: 1.25rem;
 }
 
-/* Project card (stays dark in both themes) */
+/* Card: stays dark in both themes, 24px padding on phones */
 .proj-card {
+  min-width: 0;
+  padding: 1.5rem;
   background: var(--card-bg);
   color: var(--card-text);
   border: 1px solid var(--card-line);
   border-radius: var(--radius);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: border-color 0.25s ease;
-}
-.proj-card:hover,
-.proj-card.is-open {
-  border-color: rgba(247, 238, 241, 0.28);
-}
-
-.proj-card__main {
-  padding: 1.25rem;
+  overflow-wrap: anywhere;
 }
 
 .proj-card__meta {
+  margin: 0 0 0.75rem;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
-  margin-bottom: 0.65rem;
-}
-
-.proj-card__meta-left {
-  display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.35rem 0.6rem;
 }
 
 .proj-card__index {
@@ -1437,67 +1422,116 @@ a {
 }
 
 .proj-card__org {
-  font: 400 0.78rem/1.3 var(--font-mono);
+  font: 400 0.75rem/1.3 var(--font-mono);
   color: var(--card-muted);
 }
 
-.proj-card__lead-metric {
-  font: 600 0.75rem/1.2 var(--font-mono);
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  background: rgba(79, 209, 232, 0.12);
-  border: 1px solid var(--accent);
-  color: var(--card-text);
-}
-
-.proj-card__head-row {
+/* Title and result badge: badge wraps under the title when space is tight */
+.proj-card__head {
   display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .proj-card__title {
+  flex: 1 1 18rem;
+  min-width: 0;
   margin: 0;
-  font: 700 clamp(1.25rem, 2.2vw, 1.55rem)/1.22 var(--font-display);
+  font: 700 clamp(1.25rem, 2.2vw, 1.6rem)/1.22 var(--font-display);
   letter-spacing: -0.02em;
   color: var(--card-text);
 }
 
-.proj-card__cats {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+.proj-card__lead-metric {
+  flex: 0 1 auto;
+  max-width: 100%;
+  font: 600 0.75rem/1.3 var(--font-mono);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  color: var(--card-text);
 }
 
-.proj-card__cat {
-  font: 500 0.75rem/1.2 var(--font-mono);
-  padding: 0.22rem 0.5rem;
-  border-radius: 4px;
-  background: rgba(38, 9, 26, 0.5);
-  border: 1px solid var(--card-line);
+.proj-card__summary {
+  margin: 0 0 1.25rem;
+  max-width: 46rem;
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--card-muted);
 }
 
-/* Problem -> What I built -> The result blocks */
+/* Toggle buttons: real buttons, at least 44px tall */
+.proj-card__read,
+.proj-card__toggle {
+  appearance: none;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  font: 600 0.82rem/1 var(--font-mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.proj-card__read {
+  background: var(--card-deep);
+  color: var(--card-text);
+  border: 1px solid var(--accent);
+}
+.proj-card__read:hover,
+.proj-card.is-open .proj-card__read {
+  color: var(--accent);
+}
+
+.proj-card__toggle {
+  margin-top: 1.25rem;
+  background: transparent;
+  color: var(--card-text);
+  border: 1px solid var(--card-line);
+}
+.proj-card__toggle:hover,
+.proj-card__toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.proj-card__toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Smooth expand: JS animates the height; visibility hides collapsed content from keyboard and screen readers */
+.proj-card__expand {
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: height 0.35s ease, visibility 0s linear 0.35s;
+}
+.proj-card.is-open .proj-card__expand {
+  visibility: visible;
+  transition: height 0.35s ease, visibility 0s linear 0s;
+}
+
+/* Story parts: 1 column on phones, 3 columns only when there is room */
 .proj-card__story {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.85rem;
-  margin-bottom: 1.15rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1.25rem 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--card-line);
 }
 
-.proj-card__story-step {
-  padding: 0.9rem 1rem;
-  background: rgba(38, 9, 26, 0.48);
-  border: 1px solid var(--card-line);
-  border-radius: 4px;
+.proj-card__part {
+  min-width: 0;
 }
 
-.proj-card__story-step--result {
+.proj-card__part--result {
+  padding-left: 0.9rem;
   border-left: 3px solid var(--accent);
 }
 
@@ -1509,7 +1543,6 @@ a {
   color: var(--accent);
 }
 
-/* Body text at least 16px (1rem) on phones */
 .proj-card__body {
   margin: 0;
   font-size: 1rem;
@@ -1517,19 +1550,12 @@ a {
   color: var(--card-text);
 }
 
-.proj-card__footer {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.85rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--card-line);
-}
-
 .proj-card__stack-row {
   display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.5rem;
 }
 
 .proj-card__stack-label {
@@ -1557,42 +1583,11 @@ a {
   color: var(--card-text);
 }
 
-/* Toggle button: at least 44px tall */
-.proj-card__toggle {
-  appearance: none;
-  background: var(--card-deep);
-  color: var(--card-text);
-  border: 1px solid var(--card-line);
-  border-radius: var(--radius);
-  padding: 0.6rem 1rem;
-  min-height: 44px;
-  font: 600 0.82rem/1 var(--font-mono);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-}
-.proj-card__toggle:hover,
-.proj-card.is-open .proj-card__toggle {
-  border-color: var(--accent);
-  color: var(--accent);
+.proj-card__arch {
+  margin-top: 1rem;
 }
 
-.proj-card__toggle-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-/* Expandable architecture panel */
-.proj-card__panel {
-  background: rgba(38, 9, 26, 0.68);
-  border-top: 1px solid var(--card-line);
-  padding: 1.15rem 1.25rem;
-}
-
-/* Architecture diagram: mobile-first (vertical stack with downward arrows) */
+/* Architecture diagram: vertical with downward arrows on phones */
 .arch-diagram {
   background: var(--card-deep);
   border: 1px solid var(--card-line);
@@ -1602,9 +1597,8 @@ a {
 
 .arch-diagram__head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 0.4rem;
   margin-bottom: 0.85rem;
   padding-bottom: 0.6rem;
@@ -1614,7 +1608,6 @@ a {
 .arch-diagram__tag {
   font: 600 0.75rem/1 var(--font-mono);
   letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--accent);
 }
 
@@ -1626,13 +1619,13 @@ a {
 .arch-diagram__track {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 0.35rem;
 }
 
 .arch-diagram__node {
+  min-width: 0;
   padding: 0.75rem 0.85rem;
-  background: rgba(74, 20, 40, 0.58);
+  background: var(--card-bg);
   border: 1px solid var(--card-line);
   border-left: 2px solid var(--accent);
   border-radius: 4px;
@@ -1643,7 +1636,6 @@ a {
 
 .arch-diagram__step {
   font: 600 0.75rem/1 var(--font-mono);
-  letter-spacing: 0.1em;
   color: var(--accent);
 }
 
@@ -1653,7 +1645,7 @@ a {
 }
 
 .arch-diagram__detail {
-  font: 400 0.76rem/1.35 var(--font-mono);
+  font: 400 0.75rem/1.35 var(--font-mono);
   color: var(--card-muted);
 }
 
@@ -1662,68 +1654,38 @@ a {
   align-items: center;
   justify-content: center;
   color: var(--accent);
-  opacity: 0.85;
-  padding: 0.1rem 0;
 }
+.arch-diagram__arrow-h { display: none; }
+.arch-diagram__arrow-v { display: block; }
 
-/* On phones, show downward arrow and hide horizontal arrow */
-.arch-diagram__arrow-h {
-  display: none;
-}
-.arch-diagram__arrow-v {
-  display: block;
-}
-
-/* Desktop scale-up for Selected Work */
+/* Desktop scale-up: 40px card padding, 64px between case studies */
 @media (min-width: 769px) {
   .selected-work {
     padding: 3.5rem clamp(1.5rem, 5vw, 4.5rem) 4.5rem;
   }
-  .proj-card__main {
-    padding: 1.65rem 1.75rem;
+  .proj-card {
+    padding: 2.5rem;
   }
-  .proj-card__head-row {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  .work-slot:not([hidden]) ~ .work-slot:not([hidden]) {
+    margin-top: 2rem;
+    padding-top: 2rem;
   }
-  .proj-card--featured .proj-card__story {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
-  .proj-card__footer {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .proj-card__stack-row {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .proj-card__toggle {
-    flex: none;
-  }
+}
 
-  /* On desktop, architecture diagram runs horizontally with right-pointing arrows */
+/* Horizontal diagram only when there is room for four nodes */
+@media (min-width: 900px) {
   .arch-diagram__track {
     flex-direction: row;
-    align-items: stretch;
     gap: 0.45rem;
   }
   .arch-diagram__node {
     flex: 1 1 0;
-    min-width: 0;
   }
-  .arch-diagram__arrow-h {
-    display: block;
-  }
-  .arch-diagram__arrow-v {
-    display: none;
-  }
+  .arch-diagram__arrow-h { display: block; }
+  .arch-diagram__arrow-v { display: none; }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 1100px) {
   .work-more-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
