@@ -133,7 +133,32 @@
       </p>
     </section>
 
-    <!-- Sections 3-9 will be added here, one at a time -->
+    <!-- Lens stage: choosing a lens brings its section to the top of this container -->
+    <div class="lens-stage" id="lens-stage">
+      <!-- ============ 3. ENGINEERING ============ -->
+      <section class="lens-section" id="engineering" data-lens-section="engineering" aria-labelledby="eng-heading">
+        <div class="lens-section__inner">
+          <header class="section-header">
+            <div class="section-header__meta">
+              <span class="section-header__code" id="eng-code">LENS.01 // ENG</span>
+              <span class="section-header__badge" data-lens-badge="engineering">Active lens</span>
+            </div>
+            <h2 class="section-header__title" id="eng-heading">Engineering</h2>
+            <p class="section-header__sub" id="eng-subtitle">
+              Resilient backend services, payment integrations and blockchain infrastructure built for high availability and sub-200ms response times.
+            </p>
+          </header>
+
+          <div class="eng-grid" id="eng-grid">
+            <!-- Populated from content/projects.json -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Sections 4-6 (Operations, Finance, Writing) will be added inside #lens-stage -->
+    </div>
+
+    <!-- Sections 7-9 will be added here, one at a time -->
   </main>
 
   <script src="js/main.js" defer></script>

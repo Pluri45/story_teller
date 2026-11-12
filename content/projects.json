@@ -1,0 +1,137 @@
+{
+  "engineering": {
+    "code": "LENS.01 // ENG",
+    "title": "Engineering",
+    "subtitle": "Resilient backend services, payment integrations and blockchain infrastructure built for high availability and sub-200ms response times.",
+    "expandLabel": "View architecture & stack",
+    "collapseLabel": "Hide architecture & stack"
+  },
+  "projects": [
+    {
+      "id": "blockchain-infra",
+      "lens": "engineering",
+      "index": "ENG.01",
+      "title": "Cross-chain blockchain infrastructure",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Present",
+      "summary": "Built and maintained Rust-based blockchain infrastructure achieving 99.9% uptime while processing $1M+ in cross-chain transactions over 8 months.",
+      "highlights": [
+        "Maintained 99.9% production uptime across cross-chain transaction processing.",
+        "Processed over $1M in cross-chain volume over an 8-month production window.",
+        "Monitored wallet infrastructure and on-chain transaction finality across Stellar, Solana, Ethereum and TRON."
+      ],
+      "metrics": ["99.9% uptime", "$1M+ volume", "8 months"],
+      "stack": ["Rust", "Stellar", "Solana", "Ethereum", "TRON", "Docker", "Linux"],
+      "diagram": {
+        "caption": "Cross-chain transaction signing, routing and finality verification flow",
+        "nodes": [
+          { "step": "01", "title": "API Gateway", "detail": "Auth & payload validation" },
+          { "step": "02", "title": "Rust Core", "detail": "Signing & queue dispatch" },
+          { "step": "03", "title": "Chain Adapters", "detail": "Stellar, Solana, ETH, TRON" },
+          { "step": "04", "title": "Finality Watcher", "detail": "On-chain state & ledger sync" }
+        ]
+      },
+      "image": {
+        "src": "assets/img/project-1.jpg",
+        "alt": "Cross-chain blockchain infrastructure screenshot",
+        "ratio": "16:10",
+        "label": "Project screenshot · 16:10 · /assets/img/project-1.jpg"
+      },
+      "repoUrl": "[PLACEHOLDER]"
+    },
+    {
+      "id": "fiat-ramps-api",
+      "lens": "engineering",
+      "index": "ENG.02",
+      "title": "Pan-African fiat on/off-ramp and payment APIs",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Present",
+      "summary": "Designed and implemented scalable backend services supporting 4,000+ active users with sub-200ms API response times across five African countries.",
+      "highlights": [
+        "Integrated Flutterwave, Link and Bridge to run fiat on-ramp and off-ramp flows across five African countries.",
+        "Implemented backend integrations for card and payment products, including provider APIs, webhooks and wallet funding.",
+        "Kept API response times under 200ms for 4,000+ active fintech users."
+      ],
+      "metrics": ["4,000+ users", "<200ms APIs", "5 countries"],
+      "stack": ["PHP", "Laravel", "REST APIs", "GraphQL", "PostgreSQL", "Redis", "Webhooks", "Queues"],
+      "diagram": {
+        "caption": "Multi-provider fiat on/off-ramp request and webhook settlement pipeline",
+        "nodes": [
+          { "step": "01", "title": "Client Apps", "detail": "4,000+ active users" },
+          { "step": "02", "title": "Laravel API", "detail": "Sub-200ms routing & Redis" },
+          { "step": "03", "title": "Payment Rails", "detail": "Flutterwave, Link, Bridge" },
+          { "step": "04", "title": "Webhook Workers", "detail": "Queue jobs & wallet ledger" }
+        ]
+      },
+      "image": {
+        "src": "assets/img/project-2.jpg",
+        "alt": "Pan-African payment APIs screenshot",
+        "ratio": "16:10",
+        "label": "Project screenshot · 16:10 · /assets/img/project-2.jpg"
+      },
+      "repoUrl": "[PLACEHOLDER]"
+    },
+    {
+      "id": "clickhouse-pipeline",
+      "lens": "engineering",
+      "index": "ENG.03",
+      "title": "ClickHouse market data pipeline and exchange fallback",
+      "company": "Blindspot Research",
+      "period": "Mar 2026 - Jul 2026",
+      "summary": "Designed a high-performance data pipeline to synchronise 5+ months of historical Forex and crypto data into ClickHouse, paired with a four-exchange price fallback layer.",
+      "highlights": [
+        "Synchronised 5+ months of historical Forex and crypto tick data into ClickHouse for rapid strategy validation and parameter optimisation.",
+        "Designed a multi-exchange price fallback layer across Coinbase, Kraken, Bitfinex and Binance to improve market-data availability and resilience."
+      ],
+      "metrics": ["5+ months data", "4 exchanges", "ClickHouse OLAP"],
+      "stack": ["Python", "ClickHouse", "SQL", "Coinbase API", "Kraken API", "Bitfinex API", "Binance API"],
+      "diagram": {
+        "caption": "Multi-exchange market feed ingestion, failover routing and ClickHouse storage",
+        "nodes": [
+          { "step": "01", "title": "Exchange Feeds", "detail": "Coinbase, Kraken, Bitfinex, Binance" },
+          { "step": "02", "title": "Fallback Router", "detail": "Health check & feed failover" },
+          { "step": "03", "title": "Sync Pipeline", "detail": "Normalisation & batching" },
+          { "step": "04", "title": "ClickHouse", "detail": "5+ months historical series" }
+        ]
+      },
+      "image": {
+        "src": "assets/img/project-3.jpg",
+        "alt": "ClickHouse market data pipeline screenshot",
+        "ratio": "16:10",
+        "label": "Project screenshot · 16:10 · /assets/img/project-3.jpg"
+      },
+      "repoUrl": "[PLACEHOLDER]"
+    },
+    {
+      "id": "crypto-dashboard",
+      "lens": "engineering",
+      "index": "ENG.04",
+      "title": "Crypto infrastructure and volume telemetry dashboard",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Present",
+      "summary": "Built an internal crypto infrastructure dashboard giving stakeholders clear, live visibility into transaction volume and network activity across blockchain rails.",
+      "highlights": [
+        "Surfaced live transaction volume and wallet activity across supported blockchain networks.",
+        "Collaborated with the engineering lead on backend architecture, database operations and production reliability."
+      ],
+      "metrics": ["Live telemetry", "Multi-chain", "Stakeholder view"],
+      "stack": ["TypeScript", "Node.js", "Bun", "PostgreSQL", "Redis", "REST APIs", "Docker"],
+      "diagram": {
+        "caption": "On-chain indexer aggregation and live stakeholder telemetry readout",
+        "nodes": [
+          { "step": "01", "title": "Chain Indexers", "detail": "Cross-chain tx events" },
+          { "step": "02", "title": "Aggregator", "detail": "Volume & latency rollups" },
+          { "step": "03", "title": "PostgreSQL + Redis", "detail": "Time-series cache & ledger" },
+          { "step": "04", "title": "Telemetry UI", "detail": "Live stakeholder dashboard" }
+        ]
+      },
+      "image": {
+        "src": "assets/img/project-4.jpg",
+        "alt": "Crypto infrastructure dashboard screenshot",
+        "ratio": "16:10",
+        "label": "Project screenshot · 16:10 · /assets/img/project-4.jpg"
+      },
+      "repoUrl": "[PLACEHOLDER]"
+    }
+  ]
+}
