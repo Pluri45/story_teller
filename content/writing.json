@@ -1,0 +1,47 @@
+{
+  "code": "WRITE.01 // NOTES",
+  "title": "Writing",
+  "intro": "I write personal essays and fiction, and I host conversations with builders.",
+  "newsletter": {
+    "heading": "Newsletter",
+    "name": "Tola's notes",
+    "description": "Personal essays, notes from my journal and the odd short story, on Substack.",
+    "url": "https://oolutolaowolabi.substack.com",
+    "buttonLabel": "Read on Substack",
+    "postsHeading": "Latest posts",
+    "readLabel": "Read post",
+    "posts": [
+      {
+        "title": "Year 2025.",
+        "date": "2025-12-31",
+        "dateLabel": "31 Dec 2025",
+        "url": "https://oolutolaowolabi.substack.com/p/year-2025",
+        "teaser": "Looking back on the year, and the arguments with myself I finally settled."
+      },
+      {
+        "title": "Meeting a stranger",
+        "date": "2025-10-26",
+        "dateLabel": "26 Oct 2025",
+        "url": "https://oolutolaowolabi.substack.com/p/meeting-a-stranger",
+        "teaser": "A few thoughts pulled out of my journal."
+      },
+      {
+        "title": "Finance and Fiction",
+        "date": "2025-02-26",
+        "dateLabel": "26 Feb 2025",
+        "url": "https://oolutolaowolabi.substack.com/p/finance-and-fiction",
+        "teaser": "A corporate finance book and The Fault in Our Stars, side by side."
+      }
+    ]
+  },
+  "fiction": {
+    "heading": "Fiction",
+    "title": "Solace",
+    "date": "2024-03-02",
+    "dateLabel": "2 Mar 2024",
+    "url": "https://oolutolaowolabi.substack.com/p/solace",
+    "note": "A short story I wrote for the Geegpay writing competition.",
+    "excerpt": "",
+    "buttonLabel": "Read the story"
+  }
+}

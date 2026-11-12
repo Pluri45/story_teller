@@ -1692,6 +1692,306 @@ a {
 }
 
 /* =========================================================
+   4. WRITING SECTION (MOBILE-FIRST)
+   ========================================================= */
+
+.writing {
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem 1.25rem 3.5rem;
+  --accent: #F06BAE;
+  --accent-ink: #F06BAE;
+}
+
+html[data-theme="light"] .writing {
+  --accent-ink: #A31C64;
+}
+
+.writing__inner {
+  width: min(100%, 78rem);
+  margin: 0 auto;
+}
+
+/* 40px between blocks on phones, 64px on desktop */
+.writing .section-header {
+  margin-bottom: 2.5rem;
+}
+
+.writing__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.writing__block {
+  display: flex;
+  flex-direction: column;
+}
+
+.writing__group-heading {
+  margin: 0 0 1rem;
+  font: 600 0.75rem/1.2 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.writing__subheading {
+  margin: 1.75rem 0 1rem;
+  font: 600 0.75rem/1.2 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--card-muted);
+}
+
+/* Base writing card: matches .proj-card */
+.writing-card {
+  min-width: 0;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  color: var(--card-text);
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  overflow-wrap: anywhere;
+  position: relative;
+}
+
+.writing-card__title {
+  margin: 0 0 0.5rem;
+  font: 700 clamp(1.25rem, 2.2vw, 1.5rem)/1.22 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--card-text);
+}
+
+.writing-card__body {
+  margin: 0;
+  max-width: 44rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--card-muted);
+}
+
+/* Newsletter card */
+.writing-card--newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+/* Button with writing accent */
+.btn--writing {
+  background: var(--card-deep);
+  color: var(--card-text);
+  border: 1px solid var(--accent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  min-height: 44px;
+}
+
+.btn--writing:hover {
+  background: var(--accent);
+  color: var(--card-deep);
+  border-color: var(--accent);
+}
+
+/* Post cards: 1 column on phones, 2-3 columns on wide screens */
+.writing__posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.post-card {
+  min-width: 0;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  color: var(--card-text);
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  overflow-wrap: anywhere;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.post-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.post-card:focus-within {
+  border-color: var(--accent);
+}
+
+.post-card__date {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font: 600 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.post-card__title {
+  margin: 0 0 0.75rem;
+  font: 700 1.2rem/1.3 var(--font-display);
+  letter-spacing: -0.015em;
+  color: var(--card-text);
+}
+
+.post-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+
+.post-card__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+.post-card__teaser {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--card-muted);
+  flex: 1 1 auto;
+}
+
+.post-card__more {
+  margin-top: auto;
+  font: 600 0.82rem/1 var(--font-mono);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: transform 0.2s ease;
+}
+
+.post-card:hover .post-card__more {
+  transform: translateX(3px);
+}
+
+/* Fiction card: reading style with Fraunces serif and spacious line height */
+.story-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.story-card__meta {
+  margin: 0;
+}
+
+.story-card__date {
+  font: 600 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.story-card__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--card-text);
+  letter-spacing: -0.01em;
+}
+
+.story-card__note {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--card-muted);
+  max-width: 48rem;
+}
+
+.story-card__excerpt {
+  margin: 0.5rem 0 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--card-deep);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--card-text);
+}
+
+.story-card .btn--writing {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.writing__fallback {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.writing__fallback a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+}
+
+/* Desktop scale-up: 40px card padding, 64px between blocks */
+@media (min-width: 640px) {
+  .writing__posts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 769px) {
+  .writing {
+    padding: 3.5rem clamp(1.5rem, 5vw, 4.5rem) 4.5rem;
+  }
+  .writing .section-header {
+    margin-bottom: 4rem;
+  }
+  .writing__body {
+    gap: 4rem;
+  }
+  .writing-card,
+  .story-card {
+    padding: 2.5rem;
+  }
+  .writing-card--newsletter {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  .writing-card--newsletter .btn--writing {
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 960px) {
+  .writing__posts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .post-card {
+    padding: 2rem;
+  }
+}
+
+/* =========================================================
    REDUCED MOTION
    ========================================================= */
 
@@ -1701,5 +2001,9 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  .post-card:hover,
+  .btn:hover {
+    transform: none !important;
   }
 }
