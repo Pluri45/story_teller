@@ -27,6 +27,30 @@
 
   <link rel="preload" as="image" href="assets/img/portrait.jpg">
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Set light/dark theme and lens before first paint so the page never flashes -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var qTheme = params.get("theme");
+        var savedTheme = localStorage.getItem("theme");
+        var sysLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+        var theme = (qTheme === "light" || qTheme === "dark")
+          ? qTheme
+          : (savedTheme === "light" || savedTheme === "dark")
+            ? savedTheme
+            : (sysLight ? "light" : "dark");
+        root.setAttribute("data-theme", theme);
+
+        var lens = params.get("lens") || localStorage.getItem("lens_v2");
+        if (lens) root.setAttribute("data-lens", lens);
+      } catch (e) {
+        root.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -34,7 +58,10 @@
   <!-- Sticky top bar: appears once the hero switcher scrolls out of view -->
   <header class="topbar" id="topbar" aria-label="Site header">
     <a class="topbar__brand" href="#top" aria-label="Back to top">OO<span class="topbar__dot" aria-hidden="true"></span></a>
-    <div class="lens-switcher lens-switcher--compact" data-switcher role="group" aria-label="Choose a lens"></div>
+    <div class="topbar__controls">
+      <div class="lens-switcher lens-switcher--compact" data-switcher role="group" aria-label="Choose a lens"></div>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to light theme"></button>
+    </div>
   </header>
 
   <!-- Shown only if the content files cannot be loaded (for example, when opened by double-clicking) -->
@@ -45,8 +72,13 @@
   <main id="main">
     <!-- ============ 1. HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-name">
-      <!-- Accent-coloured circuit traces (10% opacity, follows current lens accent) -->
+      <!-- Accent-coloured circuit traces (follows current lens accent) -->
       <div class="hero__circuit-accent" aria-hidden="true"></div>
+
+      <!-- Theme toggle in the top-right of the hero -->
+      <div class="hero__top-actions">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to light theme"></button>
+      </div>
 
       <div class="hero__inner">
         <!-- Left column (desktop): text, lens switcher, links, tools row -->

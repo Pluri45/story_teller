@@ -56,6 +56,56 @@
     if (warn) warn.hidden = false;
   }
 
+  /* ---------- Light / dark theme switcher ---------- */
+
+  var SUN_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5V5.2M12 18.8V21.5M4.22 4.22L6.13 6.13M17.87 17.87L19.78 19.78M2.5 12H5.2M18.8 12H21.5M4.22 19.78L6.13 17.87M17.87 6.13L19.78 4.22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  var MOON_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M20.2 14.6A8.2 8.2 0 0 1 9.4 3.8a8.2 8.2 0 1 0 10.8 10.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+
+  function getTheme() {
+    return root.getAttribute("data-theme") === "light" ? "light" : "dark";
+  }
+
+  function applyTheme(theme, persist) {
+    var next = theme === "light" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+
+    var metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) metaTheme.setAttribute("content", next === "light" ? "#F4EEE3" : "#3A0E1E");
+
+    var label = next === "dark" ? "Switch to light theme" : "Switch to dark theme";
+    var icon = next === "dark" ? SUN_SVG : MOON_SVG;
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      btn.setAttribute("aria-label", label);
+      btn.setAttribute("title", label);
+      btn.innerHTML = icon;
+    });
+
+    if (persist) {
+      try { localStorage.setItem("theme", next); } catch (e) { /* private mode */ }
+    }
+  }
+
+  function initThemeToggles() {
+    applyTheme(getTheme(), false);
+
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyTheme(getTheme() === "dark" ? "light" : "dark", true);
+      });
+    });
+
+    if (window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: light)");
+      var onSchemeChange = function (e) {
+        var saved = null;
+        try { saved = localStorage.getItem("theme"); } catch (err) { /* ignore */ }
+        if (!saved) applyTheme(e.matches ? "light" : "dark", false);
+      };
+      if (mq.addEventListener) mq.addEventListener("change", onSchemeChange);
+    }
+  }
+
   /* ---------- Lens switcher ---------- */
 
   var profile = null;
@@ -217,10 +267,14 @@
     onLensChange: onLensChange,
     setLens: setLens,
     getLens: function () { return currentLens; },
+    getTheme: getTheme,
+    setTheme: function (t) { applyTheme(t, true); },
     reducedMotion: reducedMotion,
     profile: function () { return profile; },
     ready: null
   };
+
+  initThemeToggles();
 
   window.Site.ready = loadJSON("profile")
     .then(function (data) {
