@@ -35,7 +35,7 @@
   "lensToFilter": {
     "engineering": "backend",
     "operations": "operations",
-    "finance": "quant"
+    "finance": "payments"
   },
   "projects": [
     {

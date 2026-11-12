@@ -305,7 +305,7 @@
 
   // Maps a hero lens to its filter tab (Writing has no filter)
   function filterForLens(lensKey) {
-    var map = { engineering: "backend", operations: "operations", finance: "quant" };
+    var map = { engineering: "backend", operations: "operations", finance: "payments" };
     if (workData && workData.lensToFilter) map = workData.lensToFilter;
     return map[lensKey] || null;
   }
