@@ -4,7 +4,7 @@
     "last": "OWOLABI",
     "full": "Olutola Owolabi"
   },
-  "role": "Backend & DevOps engineer, operations lead and writer",
+  "role": "Backend and DevOps engineer, operations lead and writer",
   "tagline": "Engineering systems. Running operations. Writing it all down.",
   "statement": [
     "[Engineering] systems.",
@@ -17,17 +17,17 @@
     "engineering": {
       "label": "Engineering",
       "accent": "#4FD1E8",
-      "subtitle": "Backend & integrations engineer building fintech and blockchain infrastructure — 99.9% uptime, sub-200ms APIs."
+      "subtitle": "Backend and integrations engineer building fintech and blockchain infrastructure, with 99.9% uptime and sub-200ms APIs."
     },
     "operations": {
       "label": "Operations",
       "accent": "#F5A524",
-      "subtitle": "Liquidity and reconciliation systems across wallets, chains and payment providers — failed withdrawals under 0.1%."
+      "subtitle": "Liquidity and reconciliation systems across wallets, chains and payment providers, keeping failed withdrawals under 0.1%."
     },
     "finance": {
       "label": "Finance",
       "accent": "#7FD49B",
-      "subtitle": "Quant research and model development — a weighted probability engine that lifted simulated win rate from 91% to 95%."
+      "subtitle": "Quant research and model development, building a weighted probability engine that lifted simulated win rate from 91% to 95%."
     },
     "writing": {
       "label": "Writing",
@@ -38,7 +38,7 @@
   "photo": {
     "src": "assets/img/portrait.jpg",
     "alt": "Portrait of Olutola Owolabi",
-    "spec": "OLUTOLA OWOLABI · BACKEND / DEVOPS · LAGOS, NG"
+    "spec": "OLUTOLA OWOLABI · BACKEND & DEVOPS · LAGOS, NG"
   },
   "email": "oolutolaowolabi@gmail.com",
   "links": [
@@ -50,7 +50,7 @@
   "toolsLabel": "TOOLS I WORK WITH",
   "tools": [
     { "id": "rust", "label": "Rust" },
-    { "id": "laravel", "label": "PHP/Laravel" },
+    { "id": "laravel", "label": "PHP / Laravel" },
     { "id": "typescript", "label": "TypeScript" },
     { "id": "python", "label": "Python" },
     { "id": "postgresql", "label": "PostgreSQL" },

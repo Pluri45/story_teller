@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Olutola Owolabi — Systems &amp; Stories</title>
-  <meta name="description" content="Olutola Owolabi — backend &amp; DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
+  <title>Olutola Owolabi | Systems &amp; Stories</title>
+  <meta name="description" content="Olutola Owolabi is a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta name="author" content="Olutola Owolabi">
   <meta name="theme-color" content="#3A0E1E">
 
   <!-- Open Graph / social link previews -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Olutola Owolabi — Systems &amp; Stories">
-  <meta property="og:description" content="Backend &amp; DevOps engineer, operations lead and writer.">
+  <meta property="og:title" content="Olutola Owolabi | Systems &amp; Stories">
+  <meta property="og:description" content="Backend and DevOps engineer, operations lead and writer.">
   <meta property="og:image" content="assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Olutola Owolabi — Systems &amp; Stories">
-  <meta name="twitter:description" content="Backend &amp; DevOps engineer, operations lead and writer.">
+  <meta name="twitter:title" content="Olutola Owolabi | Systems &amp; Stories">
+  <meta name="twitter:description" content="Backend and DevOps engineer, operations lead and writer.">
   <meta name="twitter:image" content="assets/og.png">
 
   <!-- Fonts -->
@@ -31,20 +31,23 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Sticky top bar: appears once the hero's switcher scrolls out of view -->
+  <!-- Sticky top bar: appears once the hero switcher scrolls out of view -->
   <header class="topbar" id="topbar" aria-label="Site header">
     <a class="topbar__brand" href="#top" aria-label="Back to top">OO<span class="topbar__dot" aria-hidden="true"></span></a>
     <div class="lens-switcher lens-switcher--compact" data-switcher role="group" aria-label="Choose a lens"></div>
   </header>
 
-  <!-- Shown only if the content files can't be loaded (e.g. page opened by double-clicking) -->
+  <!-- Shown only if the content files cannot be loaded (for example, when opened by double-clicking) -->
   <div class="load-warning" id="load-warning" role="alert" hidden>
-    Couldn't load the content files. Open this site with VS Code's <strong>Live Server</strong> (right-click <code>index.html</code> → "Open with Live Server").
+    Could not load the content files. Open this site with VS Code's <strong>Live Server</strong> (right-click <code>index.html</code> and choose "Open with Live Server").
   </div>
 
   <main id="main">
     <!-- ============ 1. HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-name">
+      <!-- Accent-coloured circuit traces (10% opacity, follows current lens accent) -->
+      <div class="hero__circuit-accent" aria-hidden="true"></div>
+
       <div class="hero__inner">
         <!-- Left column (desktop): text, lens switcher, links, tools row -->
         <div class="hero__content">
@@ -67,16 +70,12 @@
           </div>
         </div>
 
-        <!-- Right column (desktop): structured portrait with cut corner, hard offset block, viewfinder brackets & spec strip -->
+        <!-- Right column (desktop): structured portrait with cut corner, hard offset block, viewfinder brackets and spec strip -->
         <div class="hero__visual">
           <figure class="hero__figure">
-            <!-- Two horizontal blueprint dimension lines with tick marks near the photo -->
-            <div class="hero__dim hero__dim--top" aria-hidden="true">
-              <span class="hero__dim-label">W · 04</span>
-            </div>
-            <div class="hero__dim hero__dim--bottom" aria-hidden="true">
-              <span class="hero__dim-label">4 : 5</span>
-            </div>
+            <!-- Two horizontal dimension lines with tick marks near the photo -->
+            <div class="hero__dim hero__dim--top" aria-hidden="true"></div>
+            <div class="hero__dim hero__dim--bottom" aria-hidden="true"></div>
 
             <div class="hero__frame-wrap">
               <!-- Four L-shaped viewfinder corner brackets outside the photo -->
@@ -96,7 +95,7 @@
             </div>
 
             <figcaption class="hero__spec" id="hero-spec">
-              OLUTOLA OWOLABI · BACKEND / DEVOPS · LAGOS, NG
+              OLUTOLA OWOLABI · BACKEND &amp; DEVOPS · LAGOS, NG
             </figcaption>
           </figure>
         </div>
@@ -108,7 +107,7 @@
       </div>
     </section>
 
-    <!-- Sections 2–9 will be added here, one at a time -->
+    <!-- Sections 2-9 will be added here, one at a time -->
   </main>
 
   <script src="js/main.js" defer></script>

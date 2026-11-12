@@ -1,5 +1,5 @@
 /* =========================================================
-   main.js — loads content, runs the lens switcher and the hero.
+   main.js: loads content, runs the lens switcher and the hero.
    Other scripts (added in later sections) use window.Site.
    ========================================================= */
 (function () {

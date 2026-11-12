@@ -1,5 +1,5 @@
 /* =========================================================
-   Systems & Stories — Olutola Owolabi
+   Systems & Stories: Olutola Owolabi
    Plain CSS, no build step. Sections are marked with banners.
    ========================================================= */
 
@@ -236,7 +236,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================================
-   1. HERO — STILL BLUEPRINT GRID + SHARP CUT-CORNER PORTRAIT
+   1. HERO: STATIC CIRCUIT-BOARD TRACE PATTERN + SHARP PORTRAIT
    ========================================================= */
 
 .hero {
@@ -247,19 +247,29 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   overflow: hidden;
   isolation: isolate;
-  /* Still blueprint grid: minor lines every 48px (0.04), major lines every 240px (0.07) */
   background-color: var(--bg);
-  background-image:
-    linear-gradient(to right, rgba(247, 238, 241, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(247, 238, 241, 0.07) 1px, transparent 1px),
-    linear-gradient(to right, rgba(247, 238, 241, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(247, 238, 241, 0.04) 1px, transparent 1px);
-  background-size:
-    240px 240px,
-    240px 240px,
-    48px 48px,
-    48px 48px;
+  /* Repeating 480x480 inline SVG circuit-board trace tile in #F7EEF1 at 5% opacity:
+     1px horizontal/vertical tracks with 45 deg and 90 deg turns ending in 3.5px pad circles */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23F7EEF1' stroke-opacity='0.05' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0 64H88L116 92H212'/%3E%3Cpath d='M148 0V44L172 68H296V116'/%3E%3Cpath d='M340 36H416L444 64V136'/%3E%3Cpath d='M480 96H412L388 120H328'/%3E%3Cpath d='M36 156H124L152 184V248H220'/%3E%3Cpath d='M0 220H64L92 192H128'/%3E%3Cpath d='M260 164H344L372 192V264'/%3E%3Cpath d='M480 232H416L392 256H316'/%3E%3Cpath d='M84 296V360L112 388H204'/%3E%3Cpath d='M0 340H52L76 316H144'/%3E%3Cpath d='M236 284V348L268 380H364'/%3E%3Cpath d='M428 292V356L400 384H380'/%3E%3Cpath d='M480 420H396L368 448H288'/%3E%3Cpath d='M168 480V432L196 404H264'/%3E%3Cpath d='M44 440H116L140 416V372'/%3E%3Cpath d='M316 480V436L340 412'/%3E%3C/g%3E%3Cg fill='%23F7EEF1' fill-opacity='0.055'%3E%3Ccircle cx='212' cy='92' r='2'/%3E%3Ccircle cx='296' cy='116' r='2'/%3E%3Ccircle cx='340' cy='36' r='2'/%3E%3Ccircle cx='444' cy='136' r='2'/%3E%3Ccircle cx='328' cy='120' r='2'/%3E%3Ccircle cx='36' cy='156' r='2'/%3E%3Ccircle cx='220' cy='248' r='2'/%3E%3Ccircle cx='128' cy='192' r='2'/%3E%3Ccircle cx='260' cy='164' r='2'/%3E%3Ccircle cx='372' cy='264' r='2'/%3E%3Ccircle cx='316' cy='256' r='2'/%3E%3Ccircle cx='84' cy='296' r='2'/%3E%3Ccircle cx='204' cy='388' r='2'/%3E%3Ccircle cx='144' cy='316' r='2'/%3E%3Ccircle cx='236' cy='284' r='2'/%3E%3Ccircle cx='364' cy='380' r='2'/%3E%3Ccircle cx='428' cy='292' r='2'/%3E%3Ccircle cx='380' cy='384' r='2'/%3E%3Ccircle cx='288' cy='448' r='2'/%3E%3Ccircle cx='264' cy='404' r='2'/%3E%3Ccircle cx='44' cy='440' r='2'/%3E%3Ccircle cx='140' cy='372' r='2'/%3E%3Ccircle cx='340' cy='412' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 480px 480px;
   background-position: center top;
+}
+
+/* Secondary circuit traces in the active lens accent colour at 10% opacity */
+.hero__circuit-accent {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--accent);
+  opacity: 0.1;
+  transition: background-color 0.45s ease;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23000' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M56 36H124L148 60V128'/%3E%3Cpath d='M244 76H328L356 104V152'/%3E%3Cpath d='M72 248H156L184 220H268'/%3E%3Cpath d='M420 168H356L332 192V232'/%3E%3Cpath d='M156 344H212L240 316H312'/%3E%3Cpath d='M452 336H388L364 360V416'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='56' cy='36' r='2'/%3E%3Ccircle cx='148' cy='128' r='2'/%3E%3Ccircle cx='244' cy='76' r='2'/%3E%3Ccircle cx='356' cy='152' r='2'/%3E%3Ccircle cx='72' cy='248' r='2'/%3E%3Ccircle cx='268' cy='220' r='2'/%3E%3Ccircle cx='420' cy='168' r='2'/%3E%3Ccircle cx='332' cy='232' r='2'/%3E%3Ccircle cx='156' cy='344' r='2'/%3E%3Ccircle cx='312' cy='316' r='2'/%3E%3Ccircle cx='452' cy='336' r='2'/%3E%3Ccircle cx='364' cy='416' r='2'/%3E%3C/g%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23000' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M56 36H124L148 60V128'/%3E%3Cpath d='M244 76H328L356 104V152'/%3E%3Cpath d='M72 248H156L184 220H268'/%3E%3Cpath d='M420 168H356L332 192V232'/%3E%3Cpath d='M156 344H212L240 316H312'/%3E%3Cpath d='M452 336H388L364 360V416'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='56' cy='36' r='2'/%3E%3Ccircle cx='148' cy='128' r='2'/%3E%3Ccircle cx='244' cy='76' r='2'/%3E%3Ccircle cx='356' cy='152' r='2'/%3E%3Ccircle cx='72' cy='248' r='2'/%3E%3Ccircle cx='268' cy='220' r='2'/%3E%3Ccircle cx='420' cy='168' r='2'/%3E%3Ccircle cx='332' cy='232' r='2'/%3E%3Ccircle cx='156' cy='344' r='2'/%3E%3Ccircle cx='312' cy='316' r='2'/%3E%3Ccircle cx='452' cy='336' r='2'/%3E%3Ccircle cx='364' cy='416' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-size: 480px 480px;
+          mask-size: 480px 480px;
+  -webkit-mask-position: center top;
+          mask-position: center top;
 }
 
 .hero__inner {
@@ -458,15 +468,6 @@ h1, h2, h3, h4 {
   bottom: 52px;
   z-index: 0;
   opacity: 0.22;
-}
-
-.hero__dim-label {
-  position: absolute;
-  right: 10px;
-  top: -15px;
-  font: 400 0.62rem/1 var(--font-mono);
-  letter-spacing: 0.14em;
-  color: var(--accent);
 }
 
 /* Frame container holding the photo, hard offset block, and viewfinder brackets */
