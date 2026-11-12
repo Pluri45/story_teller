@@ -1,7 +1,7 @@
 {
-  "code": "SERV.01 // CAPABILITIES",
+  "code": "03 · Services",
   "title": "Services",
-  "intro": "I help startups and growing teams build systems that don't break, and the operations that keep them running.",
+  "intro": "I help startups and growing teams build systems that don’t break, and the operations that keep them running.",
   "items": [
     {
       "number": "01",

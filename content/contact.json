@@ -1,6 +1,6 @@
 {
-  "code": "CONTACT.01 // CONNECT",
-  "title": "Let's work together",
+  "code": "04 · Contact",
+  "title": "Let’s work together",
   "intro": "Hiring, building something, or just want to talk systems? Send me a message.",
   "form": {
     "action": "https://formspree.io/f/[PLACEHOLDER]",
@@ -8,7 +8,7 @@
     "namePlaceholder": "Your name",
     "emailLabel": "Email",
     "emailPlaceholder": "you@example.com",
-    "topicLabel": "What's this about?",
+    "topicLabel": "What’s this about?",
     "topicPlaceholder": "Choose a topic",
     "topics": [
       "Full-time role",
@@ -18,7 +18,7 @@
     "messageLabel": "Message",
     "messagePlaceholder": "Tell me about your project, timeline and goals...",
     "submitLabel": "Send message",
-    "successMessage": "Thanks, I'll get back to you soon.",
+    "successMessage": "Thanks, I’ll get back to you soon.",
     "errorMessage": "Sorry, there was a problem sending your message. Please email me directly."
   },
   "directLinksHeading": "Or reach me directly",

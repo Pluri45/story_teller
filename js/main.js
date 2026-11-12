@@ -1,6 +1,6 @@
 /* =========================================================
    main.js: loads content, runs the lens switcher, theme toggle,
-   hero, and the "Where I've worked" section.
+   hero, and the "Where I’ve worked" section.
    ========================================================= */
 (function () {
   "use strict";
@@ -130,16 +130,87 @@
     });
   }
 
+  var flashTimeout = null;
+
+  function renderTopbarDots() {
+    var box = document.getElementById("topbar-dots");
+    if (!box || !profile) return;
+    box.innerHTML = "";
+
+    profile.lensOrder.forEach(function (key) {
+      var lens = profile.lenses[key];
+      var btn = el("button", {
+        type: "button",
+        class: "topbar-dot-btn",
+        "data-lens": key,
+        "aria-label": lens.label + " lens",
+        "aria-pressed": "false"
+      }, [el("span", { class: "topbar-dot-btn__indicator", "aria-hidden": "true" })]);
+
+      btn.addEventListener("click", function () {
+        setLens(key, true);
+        flashLensName(lens.label);
+      });
+
+      btn.addEventListener("keydown", function (e) {
+        var dots = Array.from(box.querySelectorAll(".topbar-dot-btn"));
+        var idx = dots.indexOf(btn);
+        var nextIdx = -1;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          nextIdx = (idx + 1) % dots.length;
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          nextIdx = (idx - 1 + dots.length) % dots.length;
+        }
+        if (nextIdx !== -1) {
+          e.preventDefault();
+          dots[nextIdx].focus();
+          dots[nextIdx].click();
+        }
+      });
+
+      box.appendChild(btn);
+    });
+
+    if (currentLens) updateTopbarDots(currentLens);
+  }
+
+  function flashLensName(label) {
+    var nameEl = document.getElementById("topbar-lens-name");
+    if (!nameEl) return;
+    nameEl.textContent = label;
+    if (window.innerWidth < 768) {
+      if (flashTimeout) clearTimeout(flashTimeout);
+      nameEl.classList.add("is-flashing");
+      flashTimeout = setTimeout(function () {
+        nameEl.classList.remove("is-flashing");
+      }, 1500);
+    }
+  }
+
+  function updateTopbarDots(key) {
+    var box = document.getElementById("topbar-dots");
+    var nameEl = document.getElementById("topbar-lens-name");
+    if (!box || !profile || !profile.lenses[key]) return;
+    var lens = profile.lenses[key];
+    box.querySelectorAll(".topbar-dot-btn").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", btn.dataset.lens === key ? "true" : "false");
+    });
+    if (nameEl) {
+      nameEl.textContent = lens.label;
+    }
+  }
+
   function setLens(key, userTriggered) {
     if (!profile.lenses[key]) return;
     var changed = key !== currentLens;
     currentLens = key;
     root.setAttribute("data-lens", key);
 
-    // Update every switcher (hero + sticky bar)
+    // Update every switcher (hero + sticky bar dots)
     document.querySelectorAll(".lens-btn").forEach(function (btn) {
       btn.setAttribute("aria-pressed", btn.dataset.lens === key ? "true" : "false");
     });
+    updateTopbarDots(key);
 
     // Swap the hero subtitle with a quick fade
     var sub = document.getElementById("hero-subtitle");
@@ -203,10 +274,19 @@
         rel: "noopener"
       }, [link.label, el("span", { class: "btn__arrow", "aria-hidden": "true", text: "↗" })]));
     });
-    links.appendChild(el("a", {
+    var talkBtn = el("a", {
       class: "btn btn--primary",
-      href: "mailto:" + profile.email
-    }, [profile.emailButtonLabel, el("span", { class: "btn__arrow", "aria-hidden": "true", text: "→" })]));
+      href: "#contact"
+    }, [profile.talkButtonLabel || "Let’s talk", el("span", { class: "btn__arrow", "aria-hidden": "true", text: "→" })]);
+    talkBtn.addEventListener("click", function (e) {
+      var contactEl = document.getElementById("contact");
+      if (contactEl) {
+        e.preventDefault();
+        contactEl.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
+        if (history.pushState) history.pushState(null, "", "#contact");
+      }
+    });
+    links.appendChild(talkBtn);
 
     renderTools();
     renderWorked();
@@ -296,18 +376,89 @@
     });
   }
 
-  // Show the sticky bar once the hero switcher scrolls out of view
+  // Sticky top bar: hides on scroll down, slides back in on scroll up; floating talk button <1024px
   function initTopbar() {
     var bar = document.getElementById("topbar");
     var heroSwitcher = document.getElementById("hero-switcher");
-    if (!("IntersectionObserver" in window)) {
-      bar.classList.add("is-visible");
-      return;
+    var floatingBtn = document.getElementById("floating-talk-btn");
+    var topbarTalkBtn = document.getElementById("topbar-talk-btn");
+
+    function scrollToContact(e) {
+      var contactEl = document.getElementById("contact");
+      if (contactEl) {
+        e.preventDefault();
+        contactEl.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
+        if (history.pushState) history.pushState(null, "", "#contact");
+      }
     }
-    new IntersectionObserver(function (entries) {
-      var visible = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
-      bar.classList.toggle("is-visible", visible);
-    }).observe(heroSwitcher);
+
+    if (topbarTalkBtn) topbarTalkBtn.addEventListener("click", scrollToContact);
+    if (floatingBtn) floatingBtn.addEventListener("click", scrollToContact);
+
+    var lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var ticking = false;
+
+    function update() {
+      var currentY = window.pageYOffset || document.documentElement.scrollTop;
+      var heroRect = heroSwitcher ? heroSwitcher.getBoundingClientRect() : null;
+      var heroPassed = heroRect ? heroRect.bottom < 0 : currentY > 200;
+
+      if (bar) {
+        if (!heroPassed) {
+          bar.classList.remove("is-visible", "is-hidden-scroll");
+        } else {
+          bar.classList.add("is-visible");
+          var diff = currentY - lastScrollY;
+          if (Math.abs(diff) > 4) {
+            if (diff > 0) {
+              bar.classList.add("is-hidden-scroll");
+            } else {
+              bar.classList.remove("is-hidden-scroll");
+            }
+          }
+        }
+      }
+
+      // Floating button visibility (screens < 1024px)
+      if (floatingBtn) {
+        if (window.innerWidth >= 1024 || !heroPassed) {
+          floatingBtn.classList.remove("is-visible");
+        } else {
+          var contactEl = document.getElementById("contact");
+          var footerEl = document.querySelector(".footer");
+          var contactOnScreen = false;
+          if (contactEl) {
+            var cr = contactEl.getBoundingClientRect();
+            contactOnScreen = cr.top < window.innerHeight && cr.bottom > 0;
+          }
+          var footerOnScreen = false;
+          if (footerEl) {
+            var fr = footerEl.getBoundingClientRect();
+            footerOnScreen = fr.top < window.innerHeight && fr.bottom > 0;
+          }
+          floatingBtn.classList.toggle("is-visible", !contactOnScreen && !footerOnScreen);
+        }
+      }
+
+      lastScrollY = currentY <= 0 ? 0 : currentY;
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener("resize", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    update();
   }
 
   /* ---------- Start ---------- */
@@ -332,6 +483,7 @@
       profile = data;
       renderHero();
       renderSwitchers();
+      renderTopbarDots();
       var saved = null;
       try { saved = localStorage.getItem("lens_v2"); } catch (e) { /* ignore */ }
       var urlLens = new URLSearchParams(window.location.search).get("lens");

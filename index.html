@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Olutola Owolabi | Systems &amp; Stories</title>
-  <meta name="description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
+  <meta name="description" content="I’m Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta name="author" content="Olutola Owolabi">
   <meta name="theme-color" content="#3A0E1E">
 
   <!-- Open Graph / social link previews -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Olutola Owolabi | Systems &amp; Stories">
-  <meta property="og:description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
+  <meta property="og:description" content="I’m Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta property="og:image" content="assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Olutola Owolabi | Systems &amp; Stories">
-  <meta name="twitter:description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
+  <meta name="twitter:description" content="I’m Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta name="twitter:image" content="assets/og.png">
 
   <!-- Fonts -->
@@ -57,16 +57,22 @@
 
   <!-- Sticky top bar: appears once the hero switcher scrolls out of view -->
   <header class="topbar" id="topbar" aria-label="Site header">
-    <a class="topbar__brand" href="#top" aria-label="Back to top">OO<span class="topbar__dot" aria-hidden="true"></span></a>
+    <div class="topbar__left">
+      <a class="topbar__brand" href="#top" aria-label="Back to top">OO<span class="topbar__dot" aria-hidden="true"></span></a>
+      <div class="topbar__lenses" id="topbar-lenses">
+        <div class="topbar-dots" id="topbar-dots" role="group" aria-label="Choose a lens"></div>
+        <span class="topbar-lens-name" id="topbar-lens-name" aria-live="polite">Engineering</span>
+      </div>
+    </div>
     <div class="topbar__controls">
-      <div class="lens-switcher lens-switcher--compact" data-switcher role="group" aria-label="Choose a lens"></div>
+      <a href="#contact" class="btn btn--primary topbar__talk-btn" id="topbar-talk-btn">Let’s talk <span class="btn__arrow" aria-hidden="true">→</span></a>
       <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to light theme"></button>
     </div>
   </header>
 
   <!-- Shown only if the content files cannot be loaded (for example, when opened by double-clicking) -->
   <div class="load-warning" id="load-warning" role="alert" hidden>
-    Could not load my site content files. Open this site with VS Code's <strong>Live Server</strong> (right-click <code>index.html</code> and choose "Open with Live Server").
+    Could not load my site content files. Open this site with VS Code’s <strong>Live Server</strong> (right-click <code>index.html</code> and choose "Open with Live Server").
   </div>
 
   <main id="main">
@@ -134,10 +140,10 @@
       </div>
     </section>
 
-    <!-- ============ 1B. WHERE I'VE WORKED ============ -->
+    <!-- ============ 1B. WHERE I’VE WORKED ============ -->
     <section class="worked" id="worked" aria-labelledby="worked-label">
       <div class="worked__inner">
-        <h2 class="worked__label" id="worked-label">WHERE I'VE WORKED</h2>
+        <h2 class="worked__label" id="worked-label">WHERE I’VE WORKED</h2>
         <ul class="worked__list" id="worked-list">
           <!-- Populated from content/profile.json -->
         </ul>
@@ -175,7 +181,7 @@
       <div class="selected-work__inner">
         <header class="section-header">
           <div class="section-header__meta">
-            <span class="section-header__code" id="work-code">WORK.01 // SELECTED</span>
+            <span class="section-header__code" id="work-code">01 · Work</span>
           </div>
           <h2 class="section-header__title" id="work-heading">Selected work</h2>
           <p class="section-header__sub" id="work-subtitle">
@@ -209,7 +215,7 @@
       <div class="writing__inner">
         <header class="section-header">
           <div class="section-header__meta">
-            <span class="section-header__code" id="writing-code">WRITE.01 // NOTES</span>
+            <span class="section-header__code" id="writing-code">02 · Writing</span>
           </div>
           <h2 class="section-header__title" id="writing-heading">Writing</h2>
           <p class="section-header__sub" id="writing-intro">
@@ -230,11 +236,11 @@
       <div class="services__inner">
         <header class="section-header">
           <div class="section-header__meta">
-            <span class="section-header__code" id="services-code">SERV.01 // CAPABILITIES</span>
+            <span class="section-header__code" id="services-code">03 · Services</span>
           </div>
           <h2 class="section-header__title" id="services-heading">Services</h2>
           <p class="section-header__sub" id="services-intro">
-            I help startups and growing teams build systems that don't break, and the operations that keep them running.
+            I help startups and growing teams build systems that don’t break, and the operations that keep them running.
           </p>
         </header>
 
@@ -254,7 +260,7 @@
       <div class="testimonials__inner">
         <header class="section-header">
           <div class="section-header__meta">
-            <span class="section-header__code" id="testimonials-code">TEST.01 // REPUTATION</span>
+            <span class="section-header__code" id="testimonials-code">Testimonials</span>
           </div>
           <h2 class="section-header__title" id="testimonials-heading">What people say</h2>
         </header>
@@ -268,9 +274,9 @@
       <div class="contact__inner">
         <header class="section-header">
           <div class="section-header__meta">
-            <span class="section-header__code" id="contact-code">CONTACT.01 // CONNECT</span>
+            <span class="section-header__code" id="contact-code">04 · Contact</span>
           </div>
-          <h2 class="section-header__title" id="contact-heading">Let's work together</h2>
+          <h2 class="section-header__title" id="contact-heading">Let’s work together</h2>
           <p class="section-header__sub" id="contact-intro">
             Hiring, building something, or just want to talk systems? Send me a message.
           </p>
@@ -318,6 +324,11 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating "Let’s talk" button for screens below 1024px -->
+  <a href="#contact" class="floating-talk-btn" id="floating-talk-btn" aria-label="Let’s talk">
+    Let’s talk <span class="floating-talk-btn__arrow" aria-hidden="true">→</span>
+  </a>
 
   <script src="js/main.js" defer></script>
   <script src="js/sections.js" defer></script>

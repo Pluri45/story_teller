@@ -17,7 +17,7 @@
     "engineering": {
       "label": "Engineering",
       "accent": "#4FD1E8",
-      "subtitle": "I'm a backend and integrations engineer building fintech and blockchain infrastructure, with 99.9% uptime and sub-200ms APIs."
+      "subtitle": "I’m a backend and integrations engineer building fintech and blockchain infrastructure, with 99.9% uptime and sub-200ms APIs."
     },
     "operations": {
       "label": "Operations",
@@ -46,7 +46,7 @@
     { "label": "GitHub", "url": "https://github.com/Pluri45" },
     { "label": "Substack", "url": "https://oolutolaowolabi.substack.com" }
   ],
-  "emailButtonLabel": "Email me",
+  "talkButtonLabel": "Let’s talk",
   "toolsLabel": "TOOLS I WORK WITH",
   "tools": [
     { "id": "rust", "label": "Rust" },
@@ -57,7 +57,7 @@
     { "id": "docker", "label": "Docker" },
     { "id": "linux", "label": "Linux" }
   ],
-  "workedLabel": "WHERE I'VE WORKED",
+  "workedLabel": "WHERE I’VE WORKED",
   "companies": [
     {
       "id": "slaine-labs",
