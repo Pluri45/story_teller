@@ -1,0 +1,32 @@
+{
+  "code": "SERV.01 // CAPABILITIES",
+  "title": "Services",
+  "intro": "I help startups and growing teams build systems that don't break, and the operations that keep them running.",
+  "items": [
+    {
+      "number": "01",
+      "title": "Backend builds and integrations",
+      "description": "APIs, payment integrations and third-party services, built to stay fast under load."
+    },
+    {
+      "number": "02",
+      "title": "DevOps and infrastructure",
+      "description": "Deployment, monitoring and uptime, so your product stays available."
+    },
+    {
+      "number": "03",
+      "title": "Operations setup",
+      "description": "Reconciliation, internal dashboards and processes that scale with your team."
+    },
+    {
+      "number": "04",
+      "title": "Technical writing",
+      "description": "Documentation and explainers your users and team actually understand."
+    }
+  ],
+  "cta": {
+    "text": "Working on something that needs solid systems behind it?",
+    "buttonLabel": "Start a conversation",
+    "buttonUrl": "#contact"
+  }
+}
