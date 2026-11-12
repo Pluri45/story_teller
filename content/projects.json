@@ -16,26 +16,27 @@
       "label": "All"
     },
     {
-      "id": "backend",
-      "label": "Backend & Infrastructure"
-    },
-    {
-      "id": "payments",
-      "label": "Payments & Fintech"
+      "id": "engineering",
+      "label": "Engineering"
     },
     {
       "id": "operations",
       "label": "Operations"
     },
     {
-      "id": "quant",
-      "label": "Data & Quant"
+      "id": "finance",
+      "label": "Finance"
+    },
+    {
+      "id": "writing",
+      "label": "Writing"
     }
   ],
   "lensToFilter": {
-    "engineering": "backend",
+    "engineering": "engineering",
     "operations": "operations",
-    "finance": "payments"
+    "finance": "finance",
+    "writing": "writing"
   },
   "projects": [
     {
@@ -47,8 +48,8 @@
       "period": "Jan 2025 - Nov 2026",
       "categories": [
         "operations",
-        "payments",
-        "backend"
+        "finance",
+        "engineering"
       ],
       "leadMetric": "Failed withdrawals under 0.1%",
       "summary": "A real-time system that keeps wallets, blockchain accounts and payment providers in sync so withdrawals go through.",
@@ -98,7 +99,7 @@
       "company": "Greep Technology",
       "period": "Jan 2025 - Nov 2026",
       "categories": [
-        "backend"
+        "engineering"
       ],
       "leadMetric": "99.9% uptime · $1M+ processed",
       "summary": "Rust infrastructure for signing, routing and confirming transactions across Stellar, Solana, Ethereum and TRON.",
@@ -149,8 +150,8 @@
       "period": "Jan 2025 - Nov 2026",
       "categories": [
         "operations",
-        "payments",
-        "backend"
+        "finance",
+        "engineering"
       ],
       "leadMetric": "New transaction revenue channel",
       "summary": "A backend feature that let local agents handle customer transactions during a liquidity shortage.",
@@ -200,8 +201,8 @@
       "company": "Greep Technology",
       "period": "Jan 2025 - Nov 2026",
       "categories": [
-        "payments",
-        "backend"
+        "finance",
+        "engineering"
       ],
       "leadMetric": "4,000+ users · <200ms APIs · 5 countries",
       "summary": "Payment APIs connecting Flutterwave, Link and Bridge for fiat on and off-ramps in five African countries.",
@@ -254,7 +255,7 @@
       "period": "Jan 2025 - Nov 2026",
       "categories": [
         "operations",
-        "backend"
+        "engineering"
       ],
       "leadMetric": "Live multi-chain volume & health view",
       "summary": "An internal dashboard showing live transaction volume and infrastructure activity across blockchain networks.",
@@ -304,8 +305,8 @@
       "company": "Blindspot Research",
       "period": "Mar 2026 - Jul 2026",
       "categories": [
-        "quant",
-        "backend"
+        "finance",
+        "engineering"
       ],
       "leadMetric": "5+ months tick history · 4 exchanges",
       "summary": "A ClickHouse pipeline for 5+ months of market data, with price feeds that fall back across four exchanges.",
@@ -355,7 +356,7 @@
       "company": "Blindspot Research",
       "period": "Mar 2026 - Jul 2026",
       "categories": [
-        "quant"
+        "finance"
       ],
       "leadMetric": "91% to 95% win rate · 190% Mar 2026 ROI",
       "summary": "A probability engine and risk filters for an autonomous prediction-market arbitrage system.",

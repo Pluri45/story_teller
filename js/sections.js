@@ -265,17 +265,27 @@
     return card;
   }
 
-  // Shows only cards whose categories include the chosen filter
-  function applyWorkFilter(filterId, animate) {
-    if (!workData) return;
-    currentFilter = filterId || "all";
-
+  function updateFilterButtons(activeId) {
     document.querySelectorAll(".work-filter-btn").forEach(function (btn) {
-      var active = btn.getAttribute("data-filter") === currentFilter;
+      var active = btn.getAttribute("data-filter") === activeId;
       btn.setAttribute("aria-selected", active ? "true" : "false");
       btn.setAttribute("tabindex", active ? "0" : "-1");
       btn.classList.toggle("is-active", active);
     });
+  }
+
+  function scrollToWriting() {
+    var writingSec = document.getElementById("writing");
+    if (writingSec) {
+      writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
+    }
+  }
+
+  // Shows only cards whose categories include the chosen filter
+  function applyWorkFilter(filterId, animate) {
+    if (!workData) return;
+    currentFilter = filterId || "all";
+    updateFilterButtons(currentFilter);
 
     var stage = document.getElementById("work-stage");
     var doUpdate = function () {
@@ -303,11 +313,27 @@
     }
   }
 
-  // Maps a hero lens to its filter tab (Writing has no filter)
+  // Maps a hero lens to its filter tab (tab IDs match lens keys)
   function filterForLens(lensKey) {
-    var map = { engineering: "backend", operations: "operations", finance: "payments" };
+    var map = { engineering: "engineering", operations: "operations", finance: "finance", writing: "writing" };
     if (workData && workData.lensToFilter) map = workData.lensToFilter;
-    return map[lensKey] || null;
+    return map[lensKey] || lensKey || null;
+  }
+
+  function handleFilterClick(filterId) {
+    if (filterId === "writing") {
+      currentFilter = "writing";
+      updateFilterButtons("writing");
+      Site.setLens("writing", true);
+      scrollToWriting();
+      return;
+    }
+    if (filterId === "all") {
+      applyWorkFilter("all", true);
+      return;
+    }
+    applyWorkFilter(filterId, true);
+    Site.setLens(filterId, true);
   }
 
   function renderSelectedWork(data) {
@@ -336,7 +362,9 @@
         tabindex: "-1",
         text: f.label
       });
-      btn.addEventListener("click", function () { applyWorkFilter(f.id, true); });
+      btn.addEventListener("click", function () {
+        handleFilterClick(f.id);
+      });
       filterBar.appendChild(btn);
       filterBtns.push(btn);
     });
@@ -353,7 +381,7 @@
       if (next !== -1) {
         e.preventDefault();
         filterBtns[next].focus();
-        applyWorkFilter(filterBtns[next].getAttribute("data-filter"), true);
+        handleFilterClick(filterBtns[next].getAttribute("data-filter"));
       }
     });
 
@@ -373,20 +401,30 @@
 
     // Start on the filter that matches the current lens (or URL ?filter=)
     var urlFilter = new URLSearchParams(window.location.search).get("filter");
-    applyWorkFilter(urlFilter || filterForLens(Site.getLens()) || "all", false);
+    var initial = urlFilter || filterForLens(Site.getLens()) || "all";
+    if (initial === "writing") {
+      currentFilter = "writing";
+      updateFilterButtons("writing");
+    } else {
+      applyWorkFilter(initial, false);
+    }
   }
 
   // Keep the filter in step with the hero lens; Writing jumps to its section
   Site.onLensChange(function (lensKey, userTriggered) {
     if (!workData) return;
     if (lensKey === "writing") {
-      if (!userTriggered) return;
-      var writingSec = document.getElementById("writing");
-      if (writingSec) writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
+      currentFilter = "writing";
+      updateFilterButtons("writing");
+      if (userTriggered) {
+        scrollToWriting();
+      }
       return;
     }
-    var filterId = filterForLens(lensKey);
-    if (filterId) applyWorkFilter(filterId, userTriggered);
+    var filterId = filterForLens(lensKey) || lensKey;
+    if (filterId && filterId !== currentFilter) {
+      applyWorkFilter(filterId, userTriggered);
+    }
   });
 
   /* ---------- Load section data ---------- */
