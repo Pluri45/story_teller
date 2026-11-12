@@ -3,7 +3,7 @@
   "code": "SYS.MON // PROD",
   "statusText": "Operational",
   "uptimeNote": "All services healthy",
-  "caption": "Results from production systems he built and ran at Greep Technology.",
+  "caption": "Results from production systems I built and ran at Greep Technology.",
   "items": [
     {
       "id": "uptime",

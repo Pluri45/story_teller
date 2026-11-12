@@ -1,6 +1,6 @@
 /* =========================================================
-   main.js: loads content, runs the lens switcher and the hero.
-   Other scripts (added in later sections) use window.Site.
+   main.js: loads content, runs the lens switcher, theme toggle,
+   hero, and the "Where I've worked" section.
    ========================================================= */
 (function () {
   "use strict";
@@ -15,7 +15,7 @@
     if (earlyLens) root.setAttribute("data-lens", earlyLens);
   } catch (e) { /* ignore */ }
 
-  /* Official monochrome Simple Icons paths (24×24 viewBox, simpleicons.org) */
+  /* Official monochrome Simple Icons paths (24x24 viewBox, simpleicons.org) */
   var TOOL_ICONS = {
     rust: "M23.835 11.301a1.076 1.076 0 0 0-.695-.883l-.78-.26a9.61 9.61 0 0 0-.294-1.425l.57-.6c.35-.369.392-.937.102-1.353l-.572-.821a1.076 1.076 0 0 0-1.318-.35l-.758.318a9.73 9.73 0 0 0-1.15-.843l.162-.806a1.076 1.076 0 0 0-.596-1.189l-.897-.435a1.076 1.076 0 0 0-1.347.258l-.524.642a9.69 9.69 0 0 0-1.41-.325l-.24-.788a1.076 1.076 0 0 0-1.03-.762h-.998a1.076 1.076 0 0 0-1.03.762l-.24.788a9.69 9.69 0 0 0-1.41.325l-.524-.642a1.076 1.076 0 0 0-1.347-.258l-.897.435a1.076 1.076 0 0 0-.596 1.189l.162.806a9.73 9.73 0 0 0-1.15.843l-.758-.318a1.076 1.076 0 0 0-1.318.35l-.572.821a1.076 1.076 0 0 0 .102 1.353l.57.6a9.61 9.61 0 0 0-.294 1.425l-.78.26a1.076 1.076 0 0 0-.695.883L.02 12.29c-.07.502.212.987.69 1.156l.778.274c.08.48.187.953.32 1.415l-.56.61c-.342.373-.376.938-.083 1.35l.582.815c.293.412.842.548 1.308.326l.752-.358c.362.304.748.583 1.155.835l-.148.81c-.09.497.163.994.618 1.21l.904.428c.456.216 1.003.095 1.334-.294l.514-.605c.462.132.935.236 1.416.31l.252.785c.154.48.6.806 1.104.806h.998c.504 0 .95-.326 1.104-.806l.252-.785c.481-.074.954-.178 1.416-.31l.514.605c.331.389.878.51 1.334.294l.904-.428c.455-.216.708-.713.618-1.21l-.148-.81c.407-.252.793-.531 1.155-.835l.752.358c.466.222 1.015.086 1.308-.326l.582-.815c.293-.412.259-.977-.083-1.35l-.56-.61c.133-.462.24-.935.32-1.415l.778-.274c.478-.169.76-.654.69-1.156l-.145-.989zM12 18.42a6.42 6.42 0 1 1 0-12.84 6.42 6.42 0 0 1 0 12.84zm-3.25-8.92h4.18c1.58 0 2.62.82 2.62 2.12 0 .95-.56 1.66-1.46 1.94l1.78 2.44h-2.16l-1.52-2.22h-1.12v2.22H8.75V9.5zm1.8 1.54v1.36h2.1c.58 0 .94-.26.94-.68 0-.42-.36-.68-.94-.68h-2.1z",
     laravel: "M23.642 5.43a.364.364 0 0 1 .014.1v5.149c0 .135-.073.26-.189.326l-4.323 2.49v4.934a.378.378 0 0 1-.188.326L9.93 23.949a.337.337 0 0 1-.066.028c-.018.006-.037.01-.056.013-.03.005-.062.005-.093 0-.02-.003-.038-.007-.056-.013a.337.337 0 0 1-.066-.028L.567 18.755a.376.376 0 0 1-.189-.326V2.974c0-.033.005-.066.014-.098.008-.03.02-.058.037-.084.015-.024.034-.047.055-.066.022-.02.046-.036.073-.05L4.88.187a.378.378 0 0 1 .377 0l4.323 2.49c.027.014.051.03.073.05.021.019.04.042.055.066.017.026.029.054.037.084.009.032.014.065.014.098v9.572l3.57-2.057V5.53c0-.034.005-.067.014-.1.008-.03.02-.058.037-.083.015-.025.034-.047.056-.066.021-.02.046-.037.072-.05l4.323-2.49a.378.378 0 0 1 .377 0l4.323 2.49c.054.031.099.076.13.131.016.025.028.053.037.083zm-.766 4.922V6.18l-1.564.9-2.006 1.156v4.173l3.57-2.057zm-4.323 7.85v-4.175l-1.978 1.14-6.069 3.493v4.225l8.047-4.683zM1.132 3.624v14.588l8.047 4.636v-4.225L4.956 16.19a.377.377 0 0 1-.189-.326V5.68l-3.635-2.056zm3.937-2.68L1.499 3.001l3.57 2.057 3.57-2.057-3.57-2.057zm1.028 11.494l2.919-1.682V3.624l-1.564.9-2.005 1.156v7.152l.65-.394zM19.135 3.49l-3.57 2.057 3.57 2.057 3.57-2.057-3.57-2.057zm-.377 4.765l-2.006-1.156-1.564-.9v4.173l2.006 1.156 1.564.9V8.255zm-8.996 9.722l5.702-3.283 2.344-1.35-3.568-2.057-4.323 2.49-3.598 2.073 3.443 2.127z",
@@ -130,8 +130,9 @@
     });
   }
 
-  function setLens(key, persist) {
-    if (!profile.lenses[key] || key === currentLens) return;
+  function setLens(key, userTriggered) {
+    if (!profile.lenses[key]) return;
+    var changed = key !== currentLens;
     currentLens = key;
     root.setAttribute("data-lens", key);
 
@@ -143,27 +144,29 @@
     // Swap the hero subtitle with a quick fade
     var sub = document.getElementById("hero-subtitle");
     var text = profile.lenses[key].subtitle;
-    if (reducedMotion || !sub.textContent) {
-      sub.textContent = text;
-    } else {
-      sub.classList.add("is-changing");
-      setTimeout(function () {
+    if (changed) {
+      if (reducedMotion || !sub.textContent) {
         sub.textContent = text;
-        sub.classList.remove("is-changing");
-      }, 250);
+      } else {
+        sub.classList.add("is-changing");
+        setTimeout(function () {
+          sub.textContent = text;
+          sub.classList.remove("is-changing");
+        }, 250);
+      }
     }
 
-    if (persist) {
+    if (userTriggered) {
       try { localStorage.setItem("lens_v2", key); } catch (e) { /* private mode */ }
     }
 
-    // Tell later sections the lens changed
-    lensListeners.forEach(function (fn) { fn(key); });
+    // Tell sections the lens changed (pass userTriggered so Selected Work / Writing can respond)
+    lensListeners.forEach(function (fn) { fn(key, !!userTriggered); });
   }
 
   function onLensChange(fn) {
     lensListeners.push(fn);
-    if (currentLens) fn(currentLens);
+    if (currentLens) fn(currentLens, false);
   }
 
   /* ---------- Hero ---------- */
@@ -206,7 +209,7 @@
     }, [profile.emailButtonLabel, el("span", { class: "btn__arrow", "aria-hidden": "true", text: "→" })]));
 
     renderTools();
-    renderMarquee();
+    renderWorked();
   }
 
   function renderTools() {
@@ -221,28 +224,76 @@
       var svg = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="' + path + '"/></svg>';
       var li = el("li", { class: "hero__tool", tabindex: "0", "data-tooltip": tool.label, "aria-label": tool.label }, [
         el("span", { class: "hero__tool-icon", html: svg }),
+        el("span", { class: "hero__tool-name", text: tool.label }),
         el("span", { class: "hero__tool-tip", "aria-hidden": "true", text: tool.label })
       ]);
+      li.addEventListener("click", function () {
+        var wasActive = li.classList.contains("is-active");
+        listEl.querySelectorAll(".hero__tool.is-active").forEach(function (n) { n.classList.remove("is-active"); });
+        if (!wasActive) li.classList.add("is-active");
+      });
       listEl.appendChild(li);
     });
   }
 
-  function renderMarquee() {
-    var track = document.getElementById("hero-band-track");
-    if (!track || !profile.marquee) return;
-    track.innerHTML = "";
-    // Duplicate the sequence 3 times so wide screens scroll seamlessly
-    for (var copy = 0; copy < 3; copy++) {
-      var group = el("div", {
-        class: "hero__band-group",
-        "aria-hidden": copy > 0 ? "true" : "false"
+  /* ---------- 1B. Where I've worked ---------- */
+
+  function renderWorked() {
+    var labelEl = document.getElementById("worked-label");
+    var listEl = document.getElementById("worked-list");
+    if (!listEl || !profile.companies) return;
+    if (labelEl && profile.workedLabel) labelEl.textContent = profile.workedLabel;
+    listEl.innerHTML = "";
+
+    profile.companies.forEach(function (comp) {
+      var brandNode;
+      if (comp.logo) {
+        var picture = el("picture", { class: "worked-item__picture" });
+        if (comp.logoWebp) {
+          picture.appendChild(el("source", { srcset: comp.logoWebp, type: "image/webp" }));
+        }
+        picture.appendChild(el("img", {
+          class: "worked-item__logo worked-item__logo--" + comp.id,
+          src: comp.logo,
+          alt: comp.name,
+          width: String(comp.width || 180),
+          height: String(comp.height || 120),
+          loading: "lazy",
+          decoding: "async"
+        }));
+        brandNode = picture;
+      } else {
+        brandNode = el("span", { class: "worked-item__wordmark", text: comp.name });
+      }
+
+      var tipText = comp.role + " · " + comp.dates;
+      var item = el("li", {
+        class: "worked-item",
+        tabindex: "0",
+        "aria-label": comp.name + ": " + tipText
+      }, [
+        el("div", { class: "worked-item__brand" }, [brandNode]),
+        el("div", { class: "worked-item__meta" }, [
+          el("span", { class: "worked-item__role", text: comp.role }),
+          el("span", { class: "worked-item__dates", text: comp.dates })
+        ]),
+        el("span", { class: "worked-item__tooltip", "aria-hidden": "true" }, [
+          el("strong", { class: "worked-item__tip-name", text: comp.name }),
+          el("span", { class: "worked-item__tip-meta", text: tipText })
+        ])
+      ]);
+
+      // Tap support on touch devices: toggles full-colour state
+      item.addEventListener("click", function () {
+        var active = item.classList.contains("is-active");
+        listEl.querySelectorAll(".worked-item.is-active").forEach(function (other) {
+          other.classList.remove("is-active");
+        });
+        if (!active) item.classList.add("is-active");
       });
-      profile.marquee.forEach(function (item) {
-        group.appendChild(el("span", { class: "hero__band-item", text: item }));
-        group.appendChild(el("span", { class: "hero__band-star", "aria-hidden": "true", text: "✦" }));
-      });
-      track.appendChild(group);
-    }
+
+      listEl.appendChild(item);
+    });
   }
 
   // Show the sticky bar once the hero switcher scrolls out of view

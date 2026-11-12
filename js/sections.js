@@ -1,7 +1,7 @@
 /* =========================================================
    sections.js: builds page sections from /content JSON files.
    - Section 2: System status strip
-   - Section 3: Engineering (expandable project cards)
+   - Section 3: Selected work (filterable featured case studies + project cards)
    ========================================================= */
 (function () {
   "use strict";
@@ -9,56 +9,10 @@
   if (!window.Site) return;
   var el = Site.el;
 
-  /* ---------- Shared: Image slot with automatic placeholder fallback ---------- */
-
-  function renderImageSlot(meta) {
-    if (!meta) return null;
-    var ratioParts = (meta.ratio || "16:10").split(":");
-    var aspect = (ratioParts[0] || 16) + " / " + (ratioParts[1] || 10);
-
-    var box = el("div", {
-      class: "img-slot",
-      style: "--slot-aspect:" + aspect
-    });
-
-    var placeholder = el("div", { class: "img-slot__placeholder" }, [
-      el("span", { class: "img-slot__icon", "aria-hidden": "true", text: "[ IMG ]" }),
-      el("span", { class: "img-slot__label", text: meta.label || ("Image · " + meta.ratio + " · /" + meta.src) })
-    ]);
-    box.appendChild(placeholder);
-
-    if (meta.src && meta.src.indexOf("[PLACEHOLDER]") === -1) {
-      var img = new Image();
-      img.className = "img-slot__img";
-      img.alt = meta.alt || "";
-      img.loading = "lazy";
-      img.onload = function () {
-        box.classList.add("has-image");
-      };
-      img.onerror = function () {
-        img.remove();
-      };
-      img.src = meta.src;
-      box.appendChild(img);
-    }
-
-    return box;
+  function cleanCheckPrefix(text) {
+    if (!text) return "";
+    return String(text).replace(/^\[CHECK\]\s*/i, "");
   }
-
-  /* ---------- Lens stage ordering (brings active lens section forward) ---------- */
-
-  function syncLensSections(activeLens) {
-    document.querySelectorAll("[data-lens-section]").forEach(function (sec) {
-      var match = sec.getAttribute("data-lens-section") === activeLens;
-      sec.classList.toggle("is-prioritised", match);
-    });
-    document.querySelectorAll("[data-lens-badge]").forEach(function (badge) {
-      var match = badge.getAttribute("data-lens-badge") === activeLens;
-      badge.hidden = !match;
-    });
-  }
-
-  Site.onLensChange(syncLensSections);
 
   /* ---------- 2. System status strip ---------- */
 
@@ -161,12 +115,16 @@
         });
         observer.disconnect();
       }
-    }, { threshold: 0.25 });
+    }, { threshold: 0.2 });
 
     observer.observe(strip);
   }
 
-  /* ---------- 3. Engineering (expandable project cards) ---------- */
+  /* ---------- 3. Selected work (filterable case studies & projects) ---------- */
+
+  var workData = null;
+  var currentFilter = "all";
+  var categoryMap = {};
 
   function renderDiagram(diagram) {
     if (!diagram || !diagram.nodes) return null;
@@ -181,11 +139,12 @@
       track.appendChild(box);
 
       if (idx < diagram.nodes.length - 1) {
-        var arrowSvg = '<svg viewBox="0 0 28 16" width="28" height="16" aria-hidden="true"><path d="M0 8H24M19 3L25 8L19 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        var arrowRightSvg = '<svg class="arch-diagram__arrow-h" viewBox="0 0 28 16" width="28" height="16" aria-hidden="true"><path d="M0 8H24M19 3L25 8L19 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        var arrowDownSvg = '<svg class="arch-diagram__arrow-v" viewBox="0 0 16 24" width="16" height="24" aria-hidden="true"><path d="M8 0V20M3 15L8 21L13 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         track.appendChild(el("span", {
           class: "arch-diagram__arrow",
           "aria-hidden": "true",
-          html: arrowSvg
+          html: arrowRightSvg + arrowDownSvg
         }));
       }
     });
@@ -199,118 +158,251 @@
     ]);
   }
 
-  function renderEngineering(data) {
-    var grid = document.getElementById("eng-grid");
-    if (!grid || !data) return;
+  function buildProjectCard(proj, isFeatured, defaultOpen, meta) {
+    var expandLabel = meta.expandLabel || "View architecture";
+    var collapseLabel = meta.collapseLabel || "Hide architecture";
+    var panelId = "work-panel-" + proj.id;
 
-    var meta = data.engineering || {};
-    var codeEl = document.getElementById("eng-code");
-    var headingEl = document.getElementById("eng-heading");
-    var subEl = document.getElementById("eng-subtitle");
-    if (codeEl && meta.code) codeEl.textContent = meta.code;
-    if (headingEl && meta.title) headingEl.textContent = meta.title;
-    if (subEl && meta.subtitle) subEl.textContent = meta.subtitle;
-
-    var expandLabel = meta.expandLabel || "View architecture & stack";
-    var collapseLabel = meta.collapseLabel || "Hide architecture & stack";
-
-    var items = (data.projects || []).filter(function (p) {
-      return p.lens === "engineering";
+    // Stack chips
+    var stackList = el("ul", { class: "proj-card__stack", "aria-label": "Stack" });
+    (proj.stack || []).forEach(function (tech) {
+      stackList.appendChild(el("li", { class: "proj-card__chip", text: tech }));
     });
 
-    grid.innerHTML = "";
+    // Category tags
+    var catRow = el("ul", { class: "proj-card__cats", "aria-label": "Categories" });
+    (proj.categories || []).forEach(function (cId) {
+      if (categoryMap[cId]) {
+        catRow.appendChild(el("li", { class: "proj-card__cat", text: categoryMap[cId] }));
+      }
+    });
 
-    items.forEach(function (proj, idx) {
-      var isFirst = idx === 0;
-      var panelId = "eng-panel-" + proj.id;
+    // Expandable architecture toggle button (at least 44px tall)
+    var toggleText = el("span", {
+      class: "proj-card__toggle-text",
+      text: defaultOpen ? collapseLabel : expandLabel
+    });
+    var toggleIcon = el("span", {
+      class: "proj-card__toggle-icon",
+      "aria-hidden": "true",
+      text: defaultOpen ? "−" : "+"
+    });
+    var toggleBtn = el("button", {
+      type: "button",
+      class: "proj-card__toggle",
+      "aria-expanded": defaultOpen ? "true" : "false",
+      "aria-controls": panelId
+    }, [toggleText, toggleIcon]);
 
-      // Metric pills in summary view
-      var metricRow = el("ul", { class: "proj-card__metrics", "aria-label": "Key results" });
-      (proj.metrics || []).forEach(function (m) {
-        metricRow.appendChild(el("li", { class: "proj-card__metric", text: m }));
-      });
+    var panel = el("div", {
+      class: "proj-card__panel",
+      id: panelId
+    }, [renderDiagram(proj.diagram)]);
+    if (!defaultOpen) panel.hidden = true;
 
-      // Toggle button
-      var toggleText = el("span", {
-        class: "proj-card__toggle-text",
-        text: isFirst ? collapseLabel : expandLabel
-      });
-      var toggleIcon = el("span", {
-        class: "proj-card__toggle-icon",
-        "aria-hidden": "true",
-        text: isFirst ? "−" : "+"
-      });
-      var toggleBtn = el("button", {
-        type: "button",
-        class: "proj-card__toggle",
-        "aria-expanded": isFirst ? "true" : "false",
-        "aria-controls": panelId
-      }, [toggleText, toggleIcon]);
+    // Problem -> What I built -> The result blocks
+    var stepsGrid = el("div", { class: "proj-card__story" }, [
+      el("div", { class: "proj-card__story-step" }, [
+        el("h4", { class: "proj-card__subhead", text: "The problem" }),
+        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.problem) })
+      ]),
+      el("div", { class: "proj-card__story-step" }, [
+        el("h4", { class: "proj-card__subhead", text: "What I built" }),
+        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.built) })
+      ]),
+      el("div", { class: "proj-card__story-step proj-card__story-step--result" }, [
+        el("h4", { class: "proj-card__subhead", text: "The result" }),
+        el("p", { class: "proj-card__body", text: cleanCheckPrefix(proj.result) })
+      ])
+    ]);
 
-      // Expandable drawer: architecture diagram + stack + highlights + screenshot slot
-      var stackList = el("ul", { class: "proj-card__stack", "aria-label": "Stack used" });
-      (proj.stack || []).forEach(function (tech) {
-        stackList.appendChild(el("li", { class: "proj-card__chip", text: tech }));
-      });
+    var stackBlock = el("div", { class: "proj-card__stack-row" }, [
+      el("span", { class: "proj-card__stack-label", text: "Stack" }),
+      stackList
+    ]);
 
-      var highlightsList = el("ul", { class: "proj-card__highlights" });
-      (proj.highlights || []).forEach(function (h) {
-        highlightsList.appendChild(el("li", { text: h }));
-      });
-
-      var drawerBottom = el("div", { class: "proj-card__drawer-grid" }, [
-        el("div", { class: "proj-card__details" }, [
-          el("div", { class: "proj-card__block" }, [
-            el("h4", { class: "proj-card__subhead", text: "Stack used" }),
-            stackList
-          ]),
-          el("div", { class: "proj-card__block" }, [
-            el("h4", { class: "proj-card__subhead", text: "Implementation notes" }),
-            highlightsList
-          ])
-        ]),
-        renderImageSlot(proj.image)
-      ]);
-
-      var panel = el("div", {
-        class: "proj-card__panel",
-        id: panelId
-      }, [
-        renderDiagram(proj.diagram),
-        drawerBottom
-      ]);
-      if (!isFirst) panel.hidden = true;
-
-      var card = el("article", {
-        class: "proj-card" + (isFirst ? " is-open" : ""),
-        "data-lens": proj.lens
-      }, [
-        el("div", { class: "proj-card__main" }, [
-          el("div", { class: "proj-card__meta" }, [
+    var card = el("article", {
+      class: "proj-card " + (isFeatured ? "proj-card--featured" : "proj-card--compact") + (defaultOpen ? " is-open" : ""),
+      "data-categories": (proj.categories || []).join(" ")
+    }, [
+      el("div", { class: "proj-card__main" }, [
+        el("div", { class: "proj-card__meta" }, [
+          el("div", { class: "proj-card__meta-left" }, [
             el("span", { class: "proj-card__index", text: proj.index }),
             el("span", { class: "proj-card__org", text: proj.company + " · " + proj.period })
           ]),
-          el("h3", { class: "proj-card__title", text: proj.title }),
-          el("p", { class: "proj-card__summary", text: proj.summary }),
-          el("div", { class: "proj-card__footer" }, [
-            metricRow,
-            toggleBtn
-          ])
+          el("span", { class: "proj-card__lead-metric", text: proj.leadMetric })
         ]),
-        panel
-      ]);
+        el("div", { class: "proj-card__head-row" }, [
+          el("h3", { class: "proj-card__title", text: proj.title }),
+          catRow
+        ]),
+        stepsGrid,
+        el("div", { class: "proj-card__footer" }, [
+          stackBlock,
+          toggleBtn
+        ])
+      ]),
+      panel
+    ]);
 
-      toggleBtn.addEventListener("click", function () {
-        var open = card.classList.toggle("is-open");
-        panel.hidden = !open;
-        toggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
-        toggleText.textContent = open ? collapseLabel : expandLabel;
-        toggleIcon.textContent = open ? "−" : "+";
+    toggleBtn.addEventListener("click", function () {
+      var open = card.classList.toggle("is-open");
+      panel.hidden = !open;
+      toggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      toggleText.textContent = open ? collapseLabel : expandLabel;
+      toggleIcon.textContent = open ? "−" : "+";
+    });
+
+    return card;
+  }
+
+  function applyWorkFilter(filterId, animate) {
+    if (!workData) return;
+    currentFilter = filterId || "all";
+
+    // Update filter tab ARIA states
+    var tabs = document.querySelectorAll(".work-filter-btn");
+    tabs.forEach(function (btn) {
+      var active = btn.getAttribute("data-filter") === currentFilter;
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+      btn.setAttribute("tabindex", active ? "0" : "-1");
+      btn.classList.toggle("is-active", active);
+    });
+
+    var stage = document.getElementById("work-stage");
+    var doUpdate = function () {
+      var featuredGroup = document.getElementById("work-featured-group");
+      var moreGroup = document.getElementById("work-more-group");
+      var featuredCount = 0;
+      var moreCount = 0;
+
+      document.querySelectorAll("#work-featured-grid .proj-card").forEach(function (card) {
+        var cats = (card.getAttribute("data-categories") || "").split(" ");
+        var show = currentFilter === "all" || cats.indexOf(currentFilter) !== -1;
+        card.hidden = !show;
+        if (show) featuredCount++;
       });
 
-      grid.appendChild(card);
-    });
+      document.querySelectorAll("#work-more-grid .proj-card").forEach(function (card) {
+        var cats = (card.getAttribute("data-categories") || "").split(" ");
+        var show = currentFilter === "all" || cats.indexOf(currentFilter) !== -1;
+        card.hidden = !show;
+        if (show) moreCount++;
+      });
+
+      if (featuredGroup) featuredGroup.hidden = featuredCount === 0;
+      if (moreGroup) moreGroup.hidden = moreCount === 0;
+    };
+
+    if (animate && !Site.reducedMotion && stage) {
+      stage.classList.add("is-filtering");
+      setTimeout(function () {
+        doUpdate();
+        stage.classList.remove("is-filtering");
+      }, 160);
+    } else {
+      doUpdate();
+    }
   }
+
+  function renderSelectedWork(data) {
+    workData = data;
+    var meta = data.section || {};
+    var codeEl = document.getElementById("work-code");
+    var headingEl = document.getElementById("work-heading");
+    var subEl = document.getElementById("work-subtitle");
+    var featHeading = document.getElementById("work-featured-heading");
+    var moreHeading = document.getElementById("work-more-heading");
+    var filterBar = document.getElementById("work-filters");
+    var featGrid = document.getElementById("work-featured-grid");
+    var moreGrid = document.getElementById("work-more-grid");
+
+    if (!filterBar || !featGrid || !moreGrid) return;
+
+    if (codeEl && meta.code) codeEl.textContent = meta.code;
+    if (headingEl && meta.title) headingEl.textContent = meta.title;
+    if (subEl && meta.subtitle) subEl.textContent = meta.subtitle;
+    if (featHeading && meta.featuredHeading) featHeading.textContent = meta.featuredHeading;
+    if (moreHeading && meta.moreHeading) moreHeading.textContent = meta.moreHeading;
+
+    categoryMap = {};
+    filterBar.innerHTML = "";
+    var filterBtns = [];
+
+    (data.filters || []).forEach(function (f) {
+      if (f.id !== "all") categoryMap[f.id] = f.label;
+      var btn = el("button", {
+        type: "button",
+        class: "work-filter-btn" + (f.id === "all" ? " is-active" : ""),
+        role: "tab",
+        "data-filter": f.id,
+        "aria-selected": f.id === "all" ? "true" : "false",
+        tabindex: f.id === "all" ? "0" : "-1",
+        text: f.label
+      });
+      btn.addEventListener("click", function () {
+        applyWorkFilter(f.id, true);
+      });
+      filterBar.appendChild(btn);
+      filterBtns.push(btn);
+    });
+
+    // Keyboard navigation (Left/Right/Home/End) across filter tabs
+    filterBar.addEventListener("keydown", function (e) {
+      var idx = filterBtns.indexOf(document.activeElement);
+      if (idx === -1) return;
+      var nextIdx = -1;
+      if (e.key === "ArrowRight") nextIdx = (idx + 1) % filterBtns.length;
+      else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + filterBtns.length) % filterBtns.length;
+      else if (e.key === "Home") nextIdx = 0;
+      else if (e.key === "End") nextIdx = filterBtns.length - 1;
+
+      if (nextIdx !== -1) {
+        e.preventDefault();
+        filterBtns[nextIdx].focus();
+        applyWorkFilter(filterBtns[nextIdx].getAttribute("data-filter"), true);
+      }
+    });
+
+    featGrid.innerHTML = "";
+    moreGrid.innerHTML = "";
+
+    var featuredIdx = 0;
+    (data.projects || []).forEach(function (proj) {
+      if (proj.featured) {
+        var card = buildProjectCard(proj, true, featuredIdx === 0, meta);
+        featGrid.appendChild(card);
+        featuredIdx++;
+      } else {
+        var compactCard = buildProjectCard(proj, false, false, meta);
+        moreGrid.appendChild(compactCard);
+      }
+    });
+
+    var urlFilter = new URLSearchParams(window.location.search).get("filter");
+    applyWorkFilter(urlFilter || "all", false);
+  }
+
+  // Connect hero lens switcher to Selected Work filters (and Writing section jump)
+  Site.onLensChange(function (lensKey, userTriggered) {
+    if (!userTriggered || !workData) return;
+    if (lensKey === "writing") {
+      var writingSec = document.getElementById("writing");
+      if (writingSec) {
+        writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
+      }
+      return;
+    }
+    var map = (workData && workData.lensToFilter) || {
+      engineering: "backend",
+      operations: "operations",
+      finance: "quant"
+    };
+    if (map[lensKey]) {
+      applyWorkFilter(map[lensKey], true);
+    }
+  });
 
   /* ---------- Load section data ---------- */
 
@@ -319,9 +411,6 @@
     .catch(function (err) { console.error(err); });
 
   Site.loadJSON("projects")
-    .then(function (data) {
-      renderEngineering(data);
-      syncLensSections(Site.getLens() || "engineering");
-    })
+    .then(renderSelectedWork)
     .catch(function (err) { console.error(err); });
 })();

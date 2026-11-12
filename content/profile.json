@@ -17,22 +17,22 @@
     "engineering": {
       "label": "Engineering",
       "accent": "#4FD1E8",
-      "subtitle": "Backend and integrations engineer building fintech and blockchain infrastructure, with 99.9% uptime and sub-200ms APIs."
+      "subtitle": "I'm a backend and integrations engineer building fintech and blockchain infrastructure, with 99.9% uptime and sub-200ms APIs."
     },
     "operations": {
       "label": "Operations",
       "accent": "#F5A524",
-      "subtitle": "Builds liquidity and reconciliation systems across wallets, chains and payment providers, keeping failed withdrawals under 0.1%."
+      "subtitle": "I build liquidity and reconciliation systems across wallets, chains and payment providers, keeping failed withdrawals under 0.1%."
     },
     "finance": {
       "label": "Finance",
       "accent": "#7FD49B",
-      "subtitle": "Quant research and model development, including a weighted probability engine that lifted the simulated win rate from 91% to 95%."
+      "subtitle": "I do quant research and model development, including a weighted probability engine that lifted the simulated win rate from 91% to 95%."
     },
     "writing": {
       "label": "Writing",
       "accent": "#F06BAE",
-      "subtitle": "Fiction writer, Toyin Falola Prize long-listee (2020), and host of the Qdevs People Series."
+      "subtitle": "I write speculative fiction and personal essays, was long-listed for the Toyin Falola Prize (2020), and host the Qdevs People Series."
     }
   },
   "photo": {
@@ -57,13 +57,71 @@
     { "id": "docker", "label": "Docker" },
     { "id": "linux", "label": "Linux" }
   ],
-  "marquee": [
-    "Backend Engineering",
-    "DevOps",
-    "Payments",
-    "Reconciliation",
-    "Operations",
-    "Technical Writing",
-    "Fiction"
+  "workedLabel": "WHERE I'VE WORKED",
+  "companies": [
+    {
+      "id": "slaine-labs",
+      "name": "Slaine Labs",
+      "role": "Chief Operating Officer",
+      "dates": "[PLACEHOLDER dates]",
+      "logo": "assets/img/logos/slainelabs.png",
+      "logoWebp": "assets/img/logos/slainelabs.webp",
+      "width": 222,
+      "height": 120
+    },
+    {
+      "id": "greep",
+      "name": "Greep Technology",
+      "role": "Backend Engineer",
+      "dates": "Jan 2025 - Nov 2026",
+      "logo": "assets/img/logos/greep.png",
+      "logoWebp": "assets/img/logos/greep.webp",
+      "width": 587,
+      "height": 120
+    },
+    {
+      "id": "blindspot",
+      "name": "Blindspot Research",
+      "role": "Quant Research Assistant",
+      "dates": "Mar 2026 - Jul 2026",
+      "logo": ""
+    },
+    {
+      "id": "3tickers",
+      "name": "3tickers Finance",
+      "role": "Financial Data Analyst",
+      "dates": "Mar 2022 - Dec 2024",
+      "logo": "assets/img/logos/3tickers.png",
+      "logoWebp": "assets/img/logos/3tickers.webp",
+      "width": 173,
+      "height": 120
+    },
+    {
+      "id": "aetheroid",
+      "name": "Aetheroid",
+      "role": "Risk and Compliance Intern",
+      "dates": "Aug 2023 - Nov 2023",
+      "logo": ""
+    },
+    {
+      "id": "huspatech",
+      "name": "Huspatech",
+      "role": "Founder & Product Manager",
+      "dates": "Aug 2021 - Mar 2022",
+      "logo": "assets/img/logos/huspatech.png",
+      "logoWebp": "assets/img/logos/huspatech.webp",
+      "width": 137,
+      "height": 120
+    },
+    {
+      "id": "citonhub",
+      "name": "CitonHub",
+      "role": "Founder & Business Development",
+      "dates": "Mar 2020 - May 2021",
+      "logo": "assets/img/logos/citonhub.png",
+      "logoWebp": "assets/img/logos/citonhub.webp",
+      "width": 186,
+      "height": 120
+    }
   ]
 }

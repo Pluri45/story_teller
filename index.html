@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Olutola Owolabi | Systems &amp; Stories</title>
-  <meta name="description" content="Olutola Owolabi is a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
+  <meta name="description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta name="author" content="Olutola Owolabi">
   <meta name="theme-color" content="#3A0E1E">
 
   <!-- Open Graph / social link previews -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Olutola Owolabi | Systems &amp; Stories">
-  <meta property="og:description" content="Backend and DevOps engineer, operations lead and writer.">
+  <meta property="og:description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta property="og:image" content="assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Olutola Owolabi | Systems &amp; Stories">
-  <meta name="twitter:description" content="Backend and DevOps engineer, operations lead and writer.">
+  <meta name="twitter:description" content="I'm Olutola Owolabi, a backend and DevOps engineer, operations lead and writer. Engineering systems. Running operations. Writing it all down.">
   <meta name="twitter:image" content="assets/og.png">
 
   <!-- Fonts -->
@@ -66,7 +66,7 @@
 
   <!-- Shown only if the content files cannot be loaded (for example, when opened by double-clicking) -->
   <div class="load-warning" id="load-warning" role="alert" hidden>
-    Could not load the content files. Open this site with VS Code's <strong>Live Server</strong> (right-click <code>index.html</code> and choose "Open with Live Server").
+    Could not load my site content files. Open this site with VS Code's <strong>Live Server</strong> (right-click <code>index.html</code> and choose "Open with Live Server").
   </div>
 
   <main id="main">
@@ -94,7 +94,7 @@
 
           <div class="lens-switcher" data-switcher role="group" aria-label="Choose a lens" id="hero-switcher"></div>
 
-          <nav class="hero__links" id="hero-links" aria-label="Profiles and contact"></nav>
+          <nav class="hero__links" id="hero-links" aria-label="My profiles and contact"></nav>
 
           <div class="hero__tools" aria-label="Tools I work with">
             <p class="hero__tools-label" id="hero-tools-label">TOOLS I WORK WITH</p>
@@ -132,10 +132,15 @@
           </figure>
         </div>
       </div>
+    </section>
 
-      <!-- Full-width scrolling band at the bottom of the hero -->
-      <div class="hero__band" aria-label="Core areas">
-        <div class="hero__band-track" id="hero-band-track"></div>
+    <!-- ============ 1B. WHERE I'VE WORKED ============ -->
+    <section class="worked" id="worked" aria-labelledby="worked-label">
+      <div class="worked__inner">
+        <h2 class="worked__label" id="worked-label">WHERE I'VE WORKED</h2>
+        <ul class="worked__list" id="worked-list">
+          <!-- Populated from content/profile.json -->
+        </ul>
       </div>
     </section>
 
@@ -161,36 +166,46 @@
         </dl>
       </div>
       <p class="status-strip__caption" id="status-caption">
-        Results from production systems he built and ran at Greep Technology.
+        Results from production systems I built and ran at Greep Technology.
       </p>
     </section>
 
-    <!-- Lens stage: choosing a lens brings its section to the top of this container -->
-    <div class="lens-stage" id="lens-stage">
-      <!-- ============ 3. ENGINEERING ============ -->
-      <section class="lens-section" id="engineering" data-lens-section="engineering" aria-labelledby="eng-heading">
-        <div class="lens-section__inner">
-          <header class="section-header">
-            <div class="section-header__meta">
-              <span class="section-header__code" id="eng-code">LENS.01 // ENG</span>
-              <span class="section-header__badge" data-lens-badge="engineering">Active lens</span>
-            </div>
-            <h2 class="section-header__title" id="eng-heading">Engineering</h2>
-            <p class="section-header__sub" id="eng-subtitle">
-              Resilient backend services, payment integrations and blockchain infrastructure built for high availability and sub-200ms response times.
-            </p>
-          </header>
+    <!-- ============ 3. SELECTED WORK ============ -->
+    <section class="selected-work" id="work" aria-labelledby="work-heading">
+      <div class="selected-work__inner">
+        <header class="section-header">
+          <div class="section-header__meta">
+            <span class="section-header__code" id="work-code">WORK.01 // SELECTED</span>
+          </div>
+          <h2 class="section-header__title" id="work-heading">Selected work</h2>
+          <p class="section-header__sub" id="work-subtitle">
+            Production backends, payment rails, operational tooling and quant systems I have designed, built and run.
+          </p>
+        </header>
 
-          <div class="eng-grid" id="eng-grid">
-            <!-- Populated from content/projects.json -->
+        <!-- Filter tabs -->
+        <div class="work-filters" id="work-filters" role="tablist" aria-label="Filter projects by category">
+          <!-- Populated from content/projects.json -->
+        </div>
+
+        <div class="work-stage" id="work-stage" role="region" aria-live="polite">
+          <!-- Featured case studies -->
+          <div class="work-group" id="work-featured-group">
+            <h3 class="work-group__heading" id="work-featured-heading">Featured case studies</h3>
+            <div class="work-featured-grid" id="work-featured-grid"></div>
+          </div>
+
+          <!-- Smaller project cards -->
+          <div class="work-group" id="work-more-group">
+            <h3 class="work-group__heading" id="work-more-heading">More projects</h3>
+            <div class="work-more-grid" id="work-more-grid"></div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Sections 4-6 (Operations, Finance, Writing) will be added inside #lens-stage -->
-    </div>
-
-    <!-- Sections 7-9 will be added here, one at a time -->
+    <!-- Writing section anchor (will be expanded in the Writing step) -->
+    <div id="writing" tabindex="-1"></div>
   </main>
 
   <script src="js/main.js" defer></script>

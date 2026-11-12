@@ -1,26 +1,61 @@
 {
-  "engineering": {
-    "code": "LENS.01 // ENG",
-    "title": "Engineering",
-    "subtitle": "Resilient backend services, payment integrations and blockchain infrastructure built for high availability and sub-200ms response times.",
-    "expandLabel": "View architecture & stack",
-    "collapseLabel": "Hide architecture & stack"
+  "section": {
+    "code": "WORK.01 // SELECTED",
+    "title": "Selected work",
+    "subtitle": "Production backends, payment rails, operational tooling and quant systems I have designed, built and run.",
+    "featuredHeading": "Featured case studies",
+    "moreHeading": "More projects",
+    "expandLabel": "View architecture",
+    "collapseLabel": "Hide architecture"
+  },
+  "filters": [
+    { "id": "all", "label": "All" },
+    { "id": "backend", "label": "Backend & Infrastructure" },
+    { "id": "payments", "label": "Payments & Fintech" },
+    { "id": "operations", "label": "Operations" },
+    { "id": "quant", "label": "Data & Quant" }
+  ],
+  "lensToFilter": {
+    "engineering": "backend",
+    "operations": "operations",
+    "finance": "quant"
   },
   "projects": [
     {
+      "id": "liquidity-reconciliation",
+      "featured": true,
+      "index": "CASE.01",
+      "title": "Real-time liquidity and reconciliation system",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Nov 2026",
+      "categories": ["operations", "payments", "backend"],
+      "leadMetric": "Failed withdrawals under 0.1%",
+      "problem": "[CHECK] Customer withdrawals across wallets, blockchain accounts and external payment providers risked failing whenever liquidity or ledger balances drifted out of sync between rails.",
+      "built": "I designed a real-time liquidity and transaction reconciliation system across internal wallets, blockchain accounts and payment providers, paired with automated webhook and ledger verification workflows.",
+      "result": "I reduced failed customer withdrawals to under 0.1% and kept multi-provider balances continuously reconciled in production.",
+      "stack": ["PHP", "Laravel", "PostgreSQL", "Redis", "Webhooks", "Queues", "Transaction Ledgers"],
+      "diagram": {
+        "caption": "Real-time balance checks, ledger matching and withdrawal settlement flow",
+        "nodes": [
+          { "step": "01", "title": "Withdrawal Request", "detail": "Wallet & provider pre-check" },
+          { "step": "02", "title": "Liquidity Router", "detail": "Cross-rail balance lock" },
+          { "step": "03", "title": "Settlement Worker", "detail": "On-chain & provider payout" },
+          { "step": "04", "title": "Reconciler", "detail": "Webhook & ledger state sync" }
+        ]
+      }
+    },
+    {
       "id": "blockchain-infra",
-      "lens": "engineering",
-      "index": "ENG.01",
+      "featured": true,
+      "index": "CASE.02",
       "title": "Cross-chain blockchain infrastructure",
       "company": "Greep Technology",
-      "period": "Jan 2025 - Present",
-      "summary": "Built and maintained Rust-based blockchain infrastructure achieving 99.9% uptime while processing $1M+ in cross-chain transactions over 8 months.",
-      "highlights": [
-        "Maintained 99.9% production uptime across cross-chain transaction processing.",
-        "Processed over $1M in cross-chain volume over an 8-month production window.",
-        "Monitored wallet infrastructure and on-chain transaction finality across Stellar, Solana, Ethereum and TRON."
-      ],
-      "metrics": ["99.9% uptime", "$1M+ volume", "8 months"],
+      "period": "Jan 2025 - Nov 2026",
+      "categories": ["backend"],
+      "leadMetric": "99.9% uptime · $1M+ processed",
+      "problem": "[CHECK] Processing cross-chain transactions across Stellar, Solana, Ethereum and TRON required fault-tolerant signing, routing and on-chain finality monitoring that would not drop transactions under load.",
+      "built": "I built and maintained Rust-based blockchain infrastructure for wallet management, transaction signing and on-chain finality monitoring across Stellar, Solana, Ethereum and TRON.",
+      "result": "I achieved 99.9% production uptime while processing over $1M in cross-chain transactions over an 8-month period.",
       "stack": ["Rust", "Stellar", "Solana", "Ethereum", "TRON", "Docker", "Linux"],
       "diagram": {
         "caption": "Cross-chain transaction signing, routing and finality verification flow",
@@ -30,30 +65,44 @@
           { "step": "03", "title": "Chain Adapters", "detail": "Stellar, Solana, ETH, TRON" },
           { "step": "04", "title": "Finality Watcher", "detail": "On-chain state & ledger sync" }
         ]
-      },
-      "image": {
-        "src": "assets/img/project-1.jpg",
-        "alt": "Cross-chain blockchain infrastructure screenshot",
-        "ratio": "16:10",
-        "label": "Project screenshot · 16:10 · /assets/img/project-1.jpg"
-      },
-      "repoUrl": "[PLACEHOLDER]"
+      }
+    },
+    {
+      "id": "agent-banking",
+      "featured": true,
+      "index": "CASE.03",
+      "title": "Agent Banking backend",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Nov 2026",
+      "categories": ["operations", "payments", "backend"],
+      "leadMetric": "New transaction revenue channel",
+      "problem": "A liquidity shortage made direct customer transactions harder to fulfil through standard payment rails alone.",
+      "built": "I designed and launched an Agent Banking backend feature that enabled local agents to facilitate customer transactions during the liquidity shortage, including agent wallet funding and settlement workflows.",
+      "result": "I kept customer transactions moving through the shortage and created a new transaction-based revenue channel for the business.",
+      "stack": ["PHP", "Laravel", "REST APIs", "PostgreSQL", "Redis", "Transaction Processing", "Wallets"],
+      "diagram": {
+        "caption": "Agent-assisted customer transaction routing and commission settlement flow",
+        "nodes": [
+          { "step": "01", "title": "Customer Intent", "detail": "Cash-in or payout request" },
+          { "step": "02", "title": "Agent Router", "detail": "Float check & reservation" },
+          { "step": "03", "title": "Ledger Escrow", "detail": "Atomic wallet transfer" },
+          { "step": "04", "title": "Fee Settlement", "detail": "Agent payout & revenue split" }
+        ]
+      }
     },
     {
       "id": "fiat-ramps-api",
-      "lens": "engineering",
-      "index": "ENG.02",
+      "featured": false,
+      "index": "PRJ.01",
       "title": "Pan-African fiat on/off-ramp and payment APIs",
       "company": "Greep Technology",
-      "period": "Jan 2025 - Present",
-      "summary": "Designed and implemented scalable backend services supporting 4,000+ active users with sub-200ms API response times across five African countries.",
-      "highlights": [
-        "Integrated Flutterwave, Link and Bridge to run fiat on-ramp and off-ramp flows across five African countries.",
-        "Implemented backend integrations for card and payment products, including provider APIs, webhooks and wallet funding.",
-        "Kept API response times under 200ms for 4,000+ active fintech users."
-      ],
-      "metrics": ["4,000+ users", "<200ms APIs", "5 countries"],
-      "stack": ["PHP", "Laravel", "REST APIs", "GraphQL", "PostgreSQL", "Redis", "Webhooks", "Queues"],
+      "period": "Jan 2025 - Nov 2026",
+      "categories": ["payments", "backend"],
+      "leadMetric": "4,000+ users · <200ms APIs · 5 countries",
+      "problem": "[CHECK] Running fiat on-ramps, off-ramps and card products across five African countries required unifying multiple payment providers with different webhook and settlement flows behind fast, reliable APIs.",
+      "built": "I designed and implemented scalable backend services supporting 4,000+ active users with sub-200ms API response times, integrating Flutterwave, Link and Bridge alongside card and wallet funding workflows.",
+      "result": "I enabled fiat on-ramp and off-ramp flows across five African countries while keeping API response times under 200ms.",
+      "stack": ["PHP", "Laravel", "REST APIs", "GraphQL", "PostgreSQL", "Redis", "Flutterwave", "Link", "Bridge"],
       "diagram": {
         "caption": "Multi-provider fiat on/off-ramp request and webhook settlement pipeline",
         "nodes": [
@@ -62,28 +111,43 @@
           { "step": "03", "title": "Payment Rails", "detail": "Flutterwave, Link, Bridge" },
           { "step": "04", "title": "Webhook Workers", "detail": "Queue jobs & wallet ledger" }
         ]
-      },
-      "image": {
-        "src": "assets/img/project-2.jpg",
-        "alt": "Pan-African payment APIs screenshot",
-        "ratio": "16:10",
-        "label": "Project screenshot · 16:10 · /assets/img/project-2.jpg"
-      },
-      "repoUrl": "[PLACEHOLDER]"
+      }
+    },
+    {
+      "id": "crypto-dashboard",
+      "featured": false,
+      "index": "PRJ.02",
+      "title": "Crypto infrastructure telemetry dashboard",
+      "company": "Greep Technology",
+      "period": "Jan 2025 - Nov 2026",
+      "categories": ["operations", "backend"],
+      "leadMetric": "Live multi-chain volume & health view",
+      "problem": "[CHECK] Stakeholders needed clear, live visibility into transaction volume and infrastructure activity across blockchain networks without querying raw logs or production databases.",
+      "built": "I built an internal crypto infrastructure dashboard that aggregates on-chain transaction volume and network activity across supported blockchain rails.",
+      "result": "I gave stakeholders real-time visibility into cross-chain transaction volume and infrastructure health to support daily operations.",
+      "stack": ["TypeScript", "Node.js", "Bun", "PostgreSQL", "Redis", "REST APIs", "Docker"],
+      "diagram": {
+        "caption": "On-chain indexer aggregation and live stakeholder telemetry readout",
+        "nodes": [
+          { "step": "01", "title": "Chain Monitors", "detail": "Cross-chain tx events" },
+          { "step": "02", "title": "Aggregator", "detail": "Volume & status rollups" },
+          { "step": "03", "title": "PostgreSQL + Redis", "detail": "Cached metric snapshots" },
+          { "step": "04", "title": "Telemetry UI", "detail": "Live stakeholder dashboard" }
+        ]
+      }
     },
     {
       "id": "clickhouse-pipeline",
-      "lens": "engineering",
-      "index": "ENG.03",
+      "featured": false,
+      "index": "PRJ.03",
       "title": "ClickHouse market data pipeline and exchange fallback",
       "company": "Blindspot Research",
       "period": "Mar 2026 - Jul 2026",
-      "summary": "Designed a high-performance data pipeline to synchronise 5+ months of historical Forex and crypto data into ClickHouse, paired with a four-exchange price fallback layer.",
-      "highlights": [
-        "Synchronised 5+ months of historical Forex and crypto tick data into ClickHouse for rapid strategy validation and parameter optimisation.",
-        "Designed a multi-exchange price fallback layer across Coinbase, Kraken, Bitfinex and Binance to improve market-data availability and resilience."
-      ],
-      "metrics": ["5+ months data", "4 exchanges", "ClickHouse OLAP"],
+      "categories": ["quant", "backend"],
+      "leadMetric": "5+ months tick history · 4 exchanges",
+      "problem": "[CHECK] Strategy validation and live quant models needed months of historical Forex and crypto data plus uninterrupted live price feeds that could survive single-exchange outages.",
+      "built": "I designed a high-performance data pipeline to synchronise 5+ months of historical Forex and crypto data into ClickHouse, and built a multi-exchange price fallback layer across Coinbase, Kraken, Bitfinex and Binance.",
+      "result": "I enabled rapid strategy validation and parameter optimisation while improving live market-data availability and resilience.",
       "stack": ["Python", "ClickHouse", "SQL", "Coinbase API", "Kraken API", "Bitfinex API", "Binance API"],
       "diagram": {
         "caption": "Multi-exchange market feed ingestion, failover routing and ClickHouse storage",
@@ -93,45 +157,30 @@
           { "step": "03", "title": "Sync Pipeline", "detail": "Normalisation & batching" },
           { "step": "04", "title": "ClickHouse", "detail": "5+ months historical series" }
         ]
-      },
-      "image": {
-        "src": "assets/img/project-3.jpg",
-        "alt": "ClickHouse market data pipeline screenshot",
-        "ratio": "16:10",
-        "label": "Project screenshot · 16:10 · /assets/img/project-3.jpg"
-      },
-      "repoUrl": "[PLACEHOLDER]"
+      }
     },
     {
-      "id": "crypto-dashboard",
-      "lens": "engineering",
-      "index": "ENG.04",
-      "title": "Crypto infrastructure and volume telemetry dashboard",
-      "company": "Greep Technology",
-      "period": "Jan 2025 - Present",
-      "summary": "Built an internal crypto infrastructure dashboard giving stakeholders clear, live visibility into transaction volume and network activity across blockchain rails.",
-      "highlights": [
-        "Surfaced live transaction volume and wallet activity across supported blockchain networks.",
-        "Collaborated with the engineering lead on backend architecture, database operations and production reliability."
-      ],
-      "metrics": ["Live telemetry", "Multi-chain", "Stakeholder view"],
-      "stack": ["TypeScript", "Node.js", "Bun", "PostgreSQL", "Redis", "REST APIs", "Docker"],
+      "id": "probability-engine",
+      "featured": false,
+      "index": "PRJ.04",
+      "title": "Weighted probability engine and risk controls",
+      "company": "Blindspot Research",
+      "period": "Mar 2026 - Jul 2026",
+      "categories": ["quant"],
+      "leadMetric": "91% to 95% win rate · 190% Mar 2026 ROI",
+      "problem": "[CHECK] Capturing short-lived arbitrage edges in prediction markets required accurate real-time probability estimation while protecting against sudden price wicks and end-of-hour reversals.",
+      "built": "I co-developed a high-frequency autonomous arbitrage system for prediction markets, developed a weighted probability engine for real-time statistical edge estimation, and implemented wick-detection filters and end-of-hour reversal stop-loss logic.",
+      "result": "I improved the simulated model win rate from 91% to 95%, reduced strategy drawdowns, and helped achieve a 190% ROI during March 2026 in simulated and live strategy environments.",
+      "stack": ["Python", "Statistical Modelling", "ClickHouse", "Prediction Markets", "Risk Management"],
       "diagram": {
-        "caption": "On-chain indexer aggregation and live stakeholder telemetry readout",
+        "caption": "Real-time probability estimation, wick filtering and autonomous execution",
         "nodes": [
-          { "step": "01", "title": "Chain Indexers", "detail": "Cross-chain tx events" },
-          { "step": "02", "title": "Aggregator", "detail": "Volume & latency rollups" },
-          { "step": "03", "title": "PostgreSQL + Redis", "detail": "Time-series cache & ledger" },
-          { "step": "04", "title": "Telemetry UI", "detail": "Live stakeholder dashboard" }
+          { "step": "01", "title": "Market Feeds", "detail": "Live orderbook & price ticks" },
+          { "step": "02", "title": "Probability Engine", "detail": "Weighted statistical edge" },
+          { "step": "03", "title": "Risk Filters", "detail": "Wick filter & EOH stop-loss" },
+          { "step": "04", "title": "Execution Loop", "detail": "Autonomous arbitrage orders" }
         ]
-      },
-      "image": {
-        "src": "assets/img/project-4.jpg",
-        "alt": "Crypto infrastructure dashboard screenshot",
-        "ratio": "16:10",
-        "label": "Project screenshot · 16:10 · /assets/img/project-4.jpg"
-      },
-      "repoUrl": "[PLACEHOLDER]"
+      }
     }
   ]
 }
