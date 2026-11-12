@@ -43,5 +43,23 @@
     "note": "A short story I wrote for the Geegpay writing competition.",
     "excerpt": "",
     "buttonLabel": "Read the story"
+  },
+  "recognition": {
+    "heading": "Recognition",
+    "items": [
+      {
+        "title": "Long-listed, Toyin Falola Prize (2020)"
+      },
+      {
+        "title": "Published in (Re)living Mythology, Voodoonaut SFF anthology (2022)"
+      }
+    ]
+  },
+  "series": {
+    "heading": "Conversations",
+    "title": "Qdevs People Series",
+    "description": "The series where I talk with startup founders and tech professionals about how they build.",
+    "url": "",
+    "buttonLabel": "Watch / listen"
   }
 }

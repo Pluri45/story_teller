@@ -1939,6 +1939,41 @@ html[data-theme="light"] .writing {
   margin-top: 0.5rem;
 }
 
+/* Recognition items: 2 small items side by side on wide screens, stacked on phones */
+.recognition-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.recognition-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 4.5rem;
+}
+
+.recognition-card__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--card-text);
+}
+
+/* Qdevs People Series card */
+.series-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.series-card .btn--writing {
+  flex-shrink: 0;
+}
+
 .writing__fallback {
   color: var(--muted);
   font-size: 1rem;
@@ -1955,6 +1990,9 @@ html[data-theme="light"] .writing {
   .writing__posts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .recognition-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 769px) {
@@ -1968,16 +2006,22 @@ html[data-theme="light"] .writing {
     gap: 4rem;
   }
   .writing-card,
-  .story-card {
+  .story-card,
+  .series-card {
     padding: 2.5rem;
   }
-  .writing-card--newsletter {
+  .recognition-card {
+    padding: 2rem;
+  }
+  .writing-card--newsletter,
+  .series-card {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
   }
-  .writing-card--newsletter .btn--writing {
+  .writing-card--newsletter .btn--writing,
+  .series-card .btn--writing {
     flex-shrink: 0;
   }
 }

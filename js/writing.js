@@ -22,7 +22,7 @@
     ]);
   }
 
-  // Section subheading (e.g. "Newsletter", "Fiction")
+  // Section subheading (e.g. "Newsletter", "Fiction", "Recognition")
   function groupHeading(text) {
     return el("h3", { class: "writing__group-heading", text: text });
   }
@@ -88,6 +88,48 @@
     ]);
   }
 
+  // Renders the Recognition block: 2 items side by side on wide screens, stacked on phones
+  function renderRecognition(r) {
+    var grid = el("div", { class: "recognition-grid" });
+    (r.items || []).forEach(function (item) {
+      grid.appendChild(el("article", { class: "writing-card recognition-card" }, [
+        el("h4", { class: "recognition-card__title", text: item.title })
+      ]));
+    });
+
+    return el("div", { class: "writing__block" }, [
+      groupHeading(r.heading || "Recognition"),
+      grid
+    ]);
+  }
+
+  // Renders the Qdevs People Series card; hides button if url is empty
+  function renderSeries(s) {
+    var cardChildren = [
+      el("div", { class: "series-card__text" }, [
+        el("h4", { class: "writing-card__title", text: s.title || s.name }),
+        el("p", { class: "writing-card__body", text: s.description || s.text })
+      ])
+    ];
+
+    if (s.url && s.url.trim() && !/\[PLACEHOLDER/i.test(s.url)) {
+      cardChildren.push(externalButton(s.buttonLabel || "Watch / listen", s.url, "btn--writing"));
+    }
+
+    return el("div", { class: "writing__block" }, [
+      groupHeading(s.heading || "Conversations"),
+      el("article", { class: "writing-card series-card" }, cardChildren)
+    ]);
+  }
+
+  // Smoothly scroll to the Writing section (instant if reduced motion is preferred)
+  function scrollToWriting() {
+    var writingSec = document.getElementById("writing");
+    if (writingSec) {
+      writingSec.scrollIntoView({ behavior: Site.reducedMotion ? "auto" : "smooth" });
+    }
+  }
+
   // Main render entry point
   function renderWriting(data) {
     var codeEl = document.getElementById("writing-code");
@@ -103,7 +145,17 @@
     body.innerHTML = "";
     if (data.newsletter) body.appendChild(renderNewsletter(data.newsletter));
     if (data.fiction) body.appendChild(renderFiction(data.fiction));
+    if (data.recognition) body.appendChild(renderRecognition(data.recognition));
+    if (data.series) body.appendChild(renderSeries(data.series));
   }
+
+  // Make the Writing lens button in hero and sticky bar scroll smoothly to this section
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest && e.target.closest('[data-lens="writing"]');
+    if (btn) {
+      scrollToWriting();
+    }
+  });
 
   Site.loadJSON("writing")
     .then(renderWriting)
