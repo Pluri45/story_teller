@@ -1,0 +1,58 @@
+{
+  "title": "System status",
+  "code": "SYS.MON // PROD",
+  "statusText": "Operational",
+  "uptimeNote": "All services healthy",
+  "items": [
+    {
+      "id": "uptime",
+      "prefix": "",
+      "value": 99.9,
+      "decimals": 1,
+      "suffix": "%",
+      "display": "99.9%",
+      "label": "Uptime",
+      "note": "Rust blockchain infrastructure"
+    },
+    {
+      "id": "volume",
+      "prefix": "$",
+      "value": 1,
+      "decimals": 0,
+      "suffix": "M+",
+      "display": "$1M+",
+      "label": "Processed",
+      "note": "Cross-chain volume in 8 months"
+    },
+    {
+      "id": "users",
+      "prefix": "",
+      "value": 4000,
+      "decimals": 0,
+      "suffix": "+",
+      "display": "4,000+",
+      "label": "Users",
+      "note": "Sub-200ms API response times"
+    },
+    {
+      "id": "withdrawals",
+      "prefix": "<",
+      "value": 0.1,
+      "decimals": 1,
+      "suffix": "%",
+      "display": "<0.1%",
+      "label": "Failed withdrawals",
+      "note": "Real-time ledger reconciliation"
+    },
+    {
+      "id": "countries",
+      "prefix": "",
+      "value": 5,
+      "decimals": 0,
+      "suffix": "",
+      "display": "5",
+      "label": "Countries",
+      "note": "African fiat on and off-ramps"
+    }
+  ]
+}

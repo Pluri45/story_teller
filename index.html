@@ -107,9 +107,33 @@
       </div>
     </section>
 
-    <!-- Sections 2-9 will be added here, one at a time -->
+    <!-- ============ 2. SYSTEM STATUS STRIP ============ -->
+    <section class="status-strip" id="status" aria-labelledby="status-heading">
+      <div class="status-strip__inner">
+        <div class="status-strip__bar">
+          <div class="status-strip__title-group">
+            <span class="status-strip__code" id="status-code">SYS.MON // PROD</span>
+            <h2 class="status-strip__heading" id="status-heading">System status</h2>
+          </div>
+
+          <div class="status-strip__pill" role="status" aria-live="polite">
+            <span class="status-strip__dot" aria-hidden="true"></span>
+            <span class="status-strip__state" id="status-state">Operational</span>
+            <span class="status-strip__sep" aria-hidden="true">·</span>
+            <span class="status-strip__note" id="status-note">All services healthy</span>
+          </div>
+        </div>
+
+        <dl class="status-strip__grid" id="status-grid">
+          <!-- Populated from content/stats.json -->
+        </dl>
+      </div>
+    </section>
+
+    <!-- Sections 3-9 will be added here, one at a time -->
   </main>
 
   <script src="js/main.js" defer></script>
+  <script src="js/sections.js" defer></script>
 </body>
 </html>

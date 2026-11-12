@@ -721,3 +721,216 @@ h1, h2, h3, h4 {
     transition: none !important;
   }
 }
+
+/* =========================================================
+   2. SYSTEM STATUS STRIP (MONITORING DASHBOARD)
+   ========================================================= */
+
+.status-strip {
+  position: relative;
+  padding: clamp(2.5rem, 5vh, 4rem) var(--gutter);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.status-strip__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(18, 3, 11, 0.38);
+}
+
+/* Dashboard top header bar */
+.status-strip__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 0.85rem 1.35rem;
+  background: var(--band);
+  border-bottom: 1px solid var(--line);
+}
+
+.status-strip__title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.status-strip__code {
+  font: 600 0.72rem/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.28rem 0.5rem;
+  border: 1px solid rgba(247, 238, 241, 0.16);
+  border-radius: 3px;
+  background: rgba(58, 14, 30, 0.65);
+  white-space: nowrap;
+  transition: color 0.45s ease;
+}
+
+.status-strip__heading {
+  font: 600 0.92rem/1.2 var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.status-strip__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 500 0.78rem/1 var(--font-mono);
+  color: var(--text);
+}
+
+.status-strip__dot {
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 50%;
+  background: #7FD49B;
+  box-shadow: 0 0 0 0 rgba(127, 212, 155, 0.75);
+  animation: status-dot-pulse 2s ease-out infinite;
+  flex: none;
+}
+
+.status-strip__state {
+  color: #7FD49B;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-strip__sep,
+.status-strip__note {
+  color: var(--muted);
+}
+
+@keyframes status-dot-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(127, 212, 155, 0.75); }
+  70%  { box-shadow: 0 0 0 7px rgba(127, 212, 155, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(127, 212, 155, 0); }
+}
+
+/* 5-column metric grid */
+.status-strip__grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.status-card {
+  position: relative;
+  padding: 1.35rem 1.3rem 1.4rem;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease;
+}
+.status-card:last-child {
+  border-right: 0;
+}
+.status-card:hover {
+  background: rgba(38, 9, 26, 0.35);
+}
+
+.status-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.status-card__index {
+  font: 400 0.68rem/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+.status-card__bars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.status-card__bar {
+  width: 3px;
+  height: 10px;
+  background: var(--accent);
+  opacity: 0.55;
+  transition: background-color 0.45s ease;
+}
+.status-card__bar:nth-child(even) {
+  opacity: 0.85;
+}
+
+.status-card__value {
+  margin: 0 0 0.4rem;
+  font: 600 clamp(1.75rem, 2.5vw, 2.35rem)/1.05 var(--font-mono);
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  transition: color 0.45s ease;
+}
+
+.status-card__label {
+  font: 600 0.92rem/1.25 var(--font-display);
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.status-card__note {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Responsive layout for tablets and phones */
+@media (max-width: 1024px) {
+  .status-strip__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .status-card {
+    border-bottom: 1px solid var(--line);
+  }
+  .status-card:nth-child(3n) {
+    border-right: 0;
+  }
+  .status-card:nth-child(n+4) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .status-strip__bar {
+    padding: 0.75rem 1rem;
+  }
+  .status-strip__note,
+  .status-strip__sep {
+    display: none;
+  }
+  .status-strip__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .status-card {
+    padding: 1.1rem 1rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .status-card:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+  .status-card:nth-child(2n) {
+    border-right: 0;
+  }
+  .status-card:last-child {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 0;
+  }
+}
